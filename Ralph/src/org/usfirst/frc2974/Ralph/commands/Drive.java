@@ -31,13 +31,13 @@ public class Drive extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		SmartDashboard.putBoolean("Opt 2", false);
-		SmartDashboard.putBoolean("Opt 1", false);
+		SmartDashboard.putBoolean("Opt 2", false); //set Opt 2 to false
+		SmartDashboard.putBoolean("Opt 1", false); //set Opt 1 to false
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-    	if(SmartDashboard.getBoolean("Opt 2")){
+    	if(SmartDashboard.getBoolean("Opt 2")){ //if Option 2 is true set the variables
     		double leftY = Robot.oi.left.getY();
     		double leftX = Robot.oi.left.getX();
     		double rightY = Robot.oi.right.getY();
@@ -48,7 +48,7 @@ public class Drive extends Command {
     		
     		//asdf jkl; akf;sdlk
     		
-    	}else if(SmartDashboard.getBoolean("Opt 1")){	
+    	}else if(SmartDashboard.getBoolean("Opt 1")){	//if Option 1 is true set the variables 
     		double leftY = Robot.oi.left.getY();
     		double leftX = Robot.oi.left.getX();
     		double rightY = Robot.oi.right.getY();
@@ -58,7 +58,7 @@ public class Drive extends Command {
     		Robot.driveTrain.setSpeeds(leftY*rightY, leftY*rightX, leftY*leftX);
 
     		
-    	}else{
+    	}else{ //if all options are false set the variables
     		double modifier = 2; //Above 2 will limit top speed, Default is 2
     		double forward = (Robot.oi.left.getY() + Robot.oi.right.getY()) / modifier;
             double turn = (Robot.oi.left.getY() - Robot.oi.right.getY()) / modifier;
