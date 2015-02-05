@@ -40,10 +40,10 @@ public class ForkliftZero extends Command {
     	if(forklift.isZero())
     	{
     		forklift.raiseLowVar(0.0);
-    		forklift.resetEncoder();
+    		forklift.resetPot();
     		forklift.setPositionMode();
     		forklift.raiseToPosition(forklift.NEUTRAL_POS);
-    		finished = true; 
+    		finished = true;
     	}
     	
     }
