@@ -31,7 +31,7 @@ public class ForkliftZero extends Command {
     {
     	finished = false;
     	forklift.setPowerMode();
-    	forklift.raiseLowVar(-0.1);
+    	forklift.setElevatorPower(-0.1);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,10 +39,10 @@ public class ForkliftZero extends Command {
     {
     	if(forklift.isZero())
     	{
-    		forklift.raiseLowVar(0.0);
+    		forklift.setElevatorPower(0.0);
     		forklift.resetPot();
     		forklift.setPositionMode();
-    		forklift.raiseToPosition(forklift.NEUTRAL_POS);
+    		forklift.setElevatorPosition(forklift.NEUTRAL_POS);
     		finished = true;
     	}
     	
