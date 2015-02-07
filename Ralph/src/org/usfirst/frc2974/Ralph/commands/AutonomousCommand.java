@@ -45,16 +45,25 @@ public class AutonomousCommand extends Command
 	{
 		SmartDashboard.putNumber("Max Power", 0);
 		SmartDashboard.putNumber("Time", 1);
+		SmartDashboard.putNumber("elevatorHeight", 0);//placeholder values
+		Robot.forklift.resetPot();
+		Robot.forklift.setPositionMode();
 	}
 
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute( )
 	{
-		
+		SmartDashboard.putNumber("elevatorTarget", Robot.forklift.currentTarget());
+		SmartDashboard.putNumber("elevatorError", Robot.forklift.currentError());
 		if(current == null){
-			if(Robot.oi.right.getRawButton(10)){
+			if(Robot.oi.right.getRawButton(6)){
 				current = new MoveStraightByTime(SmartDashboard.getNumber("Max Power"), SmartDashboard.getNumber("Time"));
+				Scheduler.getInstance().add(current);
+			}
+			if(Robot.oi.right.getRawButton(7))
+			{
+				current = new RaiseLowerAuton(SmartDashboard.getNumber("elevatorHeight"));
 				Scheduler.getInstance().add(current);
 			}
 		}

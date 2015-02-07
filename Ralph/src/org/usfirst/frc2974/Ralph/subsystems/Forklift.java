@@ -31,9 +31,9 @@ public class Forklift extends Subsystem
 	private double zeroPosition = 0;
 	
 	//TODO get input from limit switch
-	private double rampRate = 0;
+	private double rampRate = 10;
 	private int izone = 0;
-	private double p = 0;
+	private double p = 0.1;
 	private double i = 0;
 	private double d = 0;
 	private double f = 0;
@@ -83,7 +83,8 @@ public class Forklift extends Subsystem
 	
 	public void setPositionMode()
 	{
-		elevatorTalon.changeControlMode(CANTalon.ControlMode.Position);	
+		elevatorTalon.changeControlMode(CANTalon.ControlMode.Position);
+		elevatorTalon.set(elevatorTalon.getPosition());
 		elevatorTalon.enableControl();
 	}
 	
@@ -149,6 +150,16 @@ public class Forklift extends Subsystem
 		double pos = elevatorTalon.getSetpoint()+dpos;
 		pos= Math.min(Math.max(pos,zeroPosition), MAX_POSITION);	
 		elevatorTalon.set(pos);
+	}
+	
+	public double currentError()
+	{
+		return elevatorTalon.getClosedLoopError()/HEIGHT_CONSTANT;
+	}
+	
+	public double currentTarget()
+	{
+		return (elevatorTalon.getSetpoint()-zeroPosition)/HEIGHT_CONSTANT;
 	}
 	/*//raises to max height(set # of levels?)
 	public void raiseToTop()

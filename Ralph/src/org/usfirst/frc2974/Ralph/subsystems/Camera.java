@@ -28,7 +28,7 @@ public class Camera extends Subsystem {
     }
  
 
-	public double getCOGX(int index)
+	public Double getCOGX(int index)
     {
     	try
     	{
@@ -40,6 +40,7 @@ public class Camera extends Subsystem {
     	{
     		tknde.printStackTrace(System.err);
     	}
+    	return null;
     }
     
 }
