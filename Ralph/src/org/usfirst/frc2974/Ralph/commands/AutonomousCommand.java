@@ -27,6 +27,8 @@ import org.usfirst.frc2974.Ralph.autonomous.TurnForTime;
 public class AutonomousCommand extends Command
 {
 
+	private Command current = null;
+	
 	public AutonomousCommand( )
 	{
 
@@ -41,36 +43,28 @@ public class AutonomousCommand extends Command
 	// Called just before this Command runs the first time
 	protected void initialize( )
 	{
-
+		SmartDashboard.putNumber("Max Power", 0);
+		SmartDashboard.putNumber("Time", 1);
 	}
 
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute( )
 	{
-		try
-		{
-		if ( SmartDashboard.getBoolean("Forward For Time") )
-		{
+		
+		if(current == null){
+			if(Robot.oi.right.getRawButton(10)){
+				current = new MoveStraightByTime(SmartDashboard.getNumber("Max Power"), SmartDashboard.getNumber("Time"));
+				Scheduler.getInstance().add(current);
+			}
+		}
+		else{
+			if(!current.isRunning()){
+				current = null;
+			}
 			
-			Scheduler.getInstance().add(new ForwardForTime(SmartDashboard.getNumber("Time To Travel"),SmartDashboard.getNumber("Forward = 1, Backward = -1")));
-			SmartDashboard.putBoolean("Forward For Time",false);
 		}
-		else if ( SmartDashboard.getBoolean("Strafe For Time") )
-		{
-			Scheduler.getInstance().add(new StrafeForTime(SmartDashboard.getNumber("Time to Strafe"),SmartDashboard.getNumber("Strafe Right = 1, Strafe Left = -1")));
-			SmartDashboard.putBoolean("Strafe For Time",false);
-		}
-		else if ( SmartDashboard.getBoolean("Turn For Time") )
-		{
-			Scheduler.getInstance().add(new TurnForTime(SmartDashboard.getNumber("Time to Turn", 5.0),SmartDashboard.getNumber("Turn Right = 1, Turn Left = -1", 5.0)));
-			SmartDashboard.putBoolean("Turn For Time",false);
-		}
-		}
-		catch(Exception e)
-		{
-			System.err.println("ERROR"+e.toString());
-		}
+		
 	}
 
 
