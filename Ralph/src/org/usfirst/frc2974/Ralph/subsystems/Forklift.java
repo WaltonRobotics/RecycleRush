@@ -1,4 +1,6 @@
 package org.usfirst.frc2974.Ralph.subsystems;
+import org.usfirst.frc2974.Ralph.RobotMap;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 //Forklift subsystem
@@ -47,8 +49,8 @@ public class Forklift extends Subsystem
 	
 	public final double MAX_POSITION = 500;//to be calibrated
 	
-	CANTalon elevatorTalon = new CANTalon(0); 
-	CANTalon clawTalon = new CANTalon(0);
+	CANTalon elevatorTalon; 
+	CANTalon clawTalon;
 	// TODO get motor reference 
 	//Encoder liftEncoder = new Encoder(0, 0);
 	//DigitalInput limitSwitch = new DigitalInput(0);
@@ -57,6 +59,10 @@ public class Forklift extends Subsystem
 	{
 		isHolding = false;
 		clawIsFullyOpen = false;
+		
+		elevatorTalon = RobotMap.elevatorTalon;
+		clawTalon = RobotMap.clawTalon;
+
 		elevatorTalon.ConfigRevLimitSwitchNormallyOpen(true);//assuming up = fwd, rev = down
 		elevatorTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);//potentiometer gives feedback
 		clawTalon.ConfigRevLimitSwitchNormallyOpen(true);
@@ -161,6 +167,12 @@ public class Forklift extends Subsystem
 	{
 		return (elevatorTalon.getSetpoint()-zeroPosition)/HEIGHT_CONSTANT;
 	}
+	
+	public double currentPosition()
+	{
+		return (elevatorTalon.getPosition()-zeroPosition)/HEIGHT_CONSTANT;
+	}
+	
 	/*//raises to max height(set # of levels?)
 	public void raiseToTop()
 	{
