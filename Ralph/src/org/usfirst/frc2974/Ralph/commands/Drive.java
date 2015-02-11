@@ -18,7 +18,6 @@ import org.usfirst.frc2974.Ralph.Robot;
 /**
  *
  */
-@SuppressWarnings("unused")
 public class Drive extends Command {
 
 	public Drive() {
@@ -28,34 +27,21 @@ public class Drive extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		SmartDashboard.putBoolean("Cheesy", false);
-		SmartDashboard.putBoolean("Tank", false);
+		SmartDashboard.putBoolean("Cheesy", true);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
     	if(SmartDashboard.getBoolean("Cheesy")){
     		//double leftY = (-Robot.oi.left.getY() +1)/2;
-    		double leftY = 
+    		double leftY = (-Robot.oi.right.getZ() +1)/2;
     		double rightY = Robot.oi.right.getY();
     		double rightX = -Robot.oi.right.getX();
     		double rightZrotate = -Robot.oi.right.getRawAxis(3);
     
     		Robot.driveTrain.setSpeeds(leftY*rightY, leftY*rightZrotate, leftY*rightX);
-    		
-    
-    		
+    		Robot.driveTrain.setHalfSpeed(Robot.oi.right.getTrigger()); //Sets half speed when trigger presse
     	}
-    //		else if(SmartDashboard.getBoolean("Tank")){	
-//    		double leftY = Robot.oi.left.getY();
-//    		double leftX = Robot.oi.left.getX();
-//    		double rightY = Robot.oi.right.getY();
-//    		double rightX = Robot.oi.right.getX();
-//    		
-//    		
-//    		Robot.driveTrain.setSpeeds(leftY*rightY, leftY*rightX, leftY*leftX);
-//
-//    	}	
     	else{
     		double modifier = 2; //Above 2 will limit top speed, Default is 2
     		double forward = (Robot.oi.left.getY() + Robot.oi.right.getY()) / modifier;
@@ -64,17 +50,6 @@ public class Drive extends Command {
             Robot.driveTrain.setSpeeds(forward, turn, strafe);
             Robot.driveTrain.setHalfSpeed(Robot.oi.right.getTrigger()); //Sets half speed when trigger pressed
     	}
-    	/*
-    	else{
-    		double leftY = Robot.oi.left.getY();
-	    	double rightY = Robot.oi.right.getY();
-	    	boolean right_button1 = Robot.oi.right.getRawButton(1);
-	    	
-	    	Robot.driveTrain.setSpeedsManual(leftY,rightY);
-	    	
-	    	Robot.driveTrain.setHalfSpeed(right_button1);
-    	}
-    	*/
     }
 
 	// Make this return true when this Command no longer needs to run execute()
