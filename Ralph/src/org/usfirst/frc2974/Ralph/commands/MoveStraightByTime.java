@@ -11,29 +11,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class MoveStraightByTime extends Command {
 	
-	private Timer timer;
 	private double timeToTravel;
 	private double power;
 	private final double C_ACCEL = 4;
-	private final double C_DECEL = 4;
+	private final double C_DECEL = -4;
 	
-    public MoveStraightByTime(double time, double power) {
+    public MoveStraightByTime(double timeToTravel, double power) {
     	requires(Robot.driveTrain);
-    	timeToTravel = time;
+    	this.timeToTravel = timeToTravel;
     	this.power = power;
-    	timer = new Timer();
-    }
+    	}
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer.reset();
-    	timer.start();
     	Robot.driveTrain.setSpeeds(0,0,0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double time = timer.get();
+    	double time = timeSinceInitialized();
     	double powerSteady = Math.abs(power);
     	double powerAccel = C_ACCEL * time;
     	double powerDecel = C_DECEL * (time - timeToTravel);
@@ -44,17 +40,17 @@ public class MoveStraightByTime extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return timer.get()>timeToTravel;
+    	return timeSinceInitialized()>timeToTravel;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	timer.stop();
     	Robot.driveTrain.setSpeeds(0, 0, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

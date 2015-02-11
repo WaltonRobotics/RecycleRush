@@ -37,23 +37,30 @@ public class AutonomousCommand extends Command {
 		SmartDashboard.putNumber("elevatorHeight", 0);// placeholder values
 		SmartDashboard.putNumber("elevatorRunTime", 1.0);
 		SmartDashboard.putNumber("elevatorRunPower", 0.0);
+		SmartDashboard.putString("Debug", "Initialized OK");
+		SmartDashboard.putNumber("CommandTime", 0.0);
+		Robot.forklift.setPowerMode();
 		Robot.forklift.resetPot();
 
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		SmartDashboard.putNumber("CommandTime", timeSinceInitialized());
 		SmartDashboard.putNumber("elevatorTarget", Robot.forklift.currentTarget());
 		SmartDashboard.putNumber("elevatorError", Robot.forklift.currentError());
 		SmartDashboard.putNumber("elevatorPosition", Robot.forklift.currentPosition());
 		if (current == null) {
 			if (Robot.oi.right.getRawButton(6)) {
+				SmartDashboard.putString("Debug", "In button 6 press");
 				current = new MoveStraightByTime(
-						SmartDashboard.getNumber("Max Power"),
-						SmartDashboard.getNumber("Time"));
+						SmartDashboard.getNumber("Time"),
+						SmartDashboard.getNumber("Max Power")
+						);
 				Scheduler.getInstance().add(current);
 			}
 			if (Robot.oi.right.getRawButton(7)) {
+				SmartDashboard.putString("Debug", "In button 7 press");
 				Robot.forklift.setPositionMode();
 				current = new RaiseLowerAuton(
 						SmartDashboard.getNumber("elevatorHeight"));
@@ -68,6 +75,7 @@ public class AutonomousCommand extends Command {
 			}
 		} else {
 			if (!current.isRunning()) {
+				SmartDashboard.putString("Debug", "Command done, waiting");
 				current = null;
 			}
 
