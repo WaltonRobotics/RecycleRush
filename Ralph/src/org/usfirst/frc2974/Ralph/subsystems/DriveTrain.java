@@ -26,7 +26,7 @@ public class DriveTrain extends Subsystem {
     // END variables and stuff
 
     public void initDefaultCommand() {
-       //setDefaultCommand(new Drive());
+       setDefaultCommand(new Drive());
     }
   
     public double fixAccel(double previousPower, double desiredPower) {

@@ -35,27 +35,28 @@ public class Drive extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
     	if(SmartDashboard.getBoolean("Cheesy")){
-    		double leftY = Robot.oi.left.getY();
-    		double leftX = Robot.oi.left.getX();
+    		//double leftY = (-Robot.oi.left.getY() +1)/2;
+    		double leftY = 
     		double rightY = Robot.oi.right.getY();
-    		double rightX = Robot.oi.right.getX();
-    		double rightZrotate = Robot.oi.right.getTwist();
+    		double rightX = -Robot.oi.right.getX();
+    		double rightZrotate = -Robot.oi.right.getRawAxis(3);
     
     		Robot.driveTrain.setSpeeds(leftY*rightY, leftY*rightZrotate, leftY*rightX);
     		
     
     		
-    	}else if(SmartDashboard.getBoolean("Tank")){	
-    		double leftY = Robot.oi.left.getY();
-    		double leftX = Robot.oi.left.getX();
-    		double rightY = Robot.oi.right.getY();
-    		double rightX = Robot.oi.right.getX();
-    		
-    		
-    		Robot.driveTrain.setSpeeds(leftY*rightY, leftY*rightX, leftY*leftX);
-
-    		
-    	}else{
+    	}
+    //		else if(SmartDashboard.getBoolean("Tank")){	
+//    		double leftY = Robot.oi.left.getY();
+//    		double leftX = Robot.oi.left.getX();
+//    		double rightY = Robot.oi.right.getY();
+//    		double rightX = Robot.oi.right.getX();
+//    		
+//    		
+//    		Robot.driveTrain.setSpeeds(leftY*rightY, leftY*rightX, leftY*leftX);
+//
+//    	}	
+    	else{
     		double modifier = 2; //Above 2 will limit top speed, Default is 2
     		double forward = (Robot.oi.left.getY() + Robot.oi.right.getY()) / modifier;
             double turn = (Robot.oi.left.getY() - Robot.oi.right.getY()) / modifier;
