@@ -36,7 +36,8 @@ public class Camera extends Subsystem {
     }
  
 
-	public Double getCOGX(int index) 
+
+	public Double getCOGX(int index)
     {
     	try
     	{

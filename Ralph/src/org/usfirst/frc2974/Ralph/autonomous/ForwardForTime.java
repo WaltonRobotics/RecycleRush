@@ -22,7 +22,7 @@ public class ForwardForTime extends Command {
     	timer = new Timer();
     	timer.reset();
     	timer.start();
-    	Robot.driveTrain.setSpeeds(100,0,0);
+    	Robot.driveTrain.setSpeeds(0,0,0);
     }
 
     // Called repeatedly when this Command is scheduled to run
