@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class RaiseLowerTeleop extends Command {
 	private Forklift forklift;		
-	private double speed = 1;//in/sec
+	private double speed = 10;//in/sec
 	private double lastTime;
 	
     public RaiseLowerTeleop() 
@@ -33,7 +33,6 @@ public class RaiseLowerTeleop extends Command {
     	SmartDashboard.putNumber("elevatorTarget", Robot.forklift.currentTarget());
 		SmartDashboard.putNumber("elevatorError", Robot.forklift.currentError());
 		SmartDashboard.putNumber("elevatorPosition", Robot.forklift.currentPosition());
-		
     	double time = timeSinceInitialized();
     	if(Robot.oi.right.getRawButton(4))
     	{

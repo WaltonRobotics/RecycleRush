@@ -65,11 +65,14 @@ public class Forklift extends Subsystem
 		elevatorTalon = RobotMap.elevatorTalon;
 		clawTalon = RobotMap.clawTalon;
 
-		elevatorTalon.ConfigRevLimitSwitchNormallyOpen(true);//assuming up = fwd, rev = down
+		elevatorTalon.ConfigRevLimitSwitchNormallyOpen(true);//assuming up = down, rev = up
 		elevatorTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);//potentiometer gives feedback
 		clawTalon.ConfigRevLimitSwitchNormallyOpen(true);
 		clawTalon.ConfigFwdLimitSwitchNormallyOpen(true);
 		clawTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
+		clawTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
+		clawTalon.enableControl();
+		
 		
 		/*elevatorTalon.setProfile(profile1);
 		elevatorTalon.setCloseLoopRampRate(rampRate);
@@ -79,7 +82,7 @@ public class Forklift extends Subsystem
 		elevatorTalon.setD(d);
 		elevatorTalon.setF(f);*/
 		elevatorTalon.setPID(p, i, d, f, izone, rampRate, profile1);
-		
+		setPowerMode();
 	}
 	//These are methods used in ForkliftZero command
 	public void setPowerMode()

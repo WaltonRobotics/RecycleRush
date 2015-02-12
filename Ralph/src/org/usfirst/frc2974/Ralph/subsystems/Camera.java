@@ -22,11 +22,20 @@ public class Camera extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public double getBlobCount()
+    public Double getBlobCount()
     {
+    	try
+    	{
     	return networkTable.getNumber("BLOB_COUNT",0);
+    	}
+    	catch(TableKeyNotDefinedException e)
+    	{
+    		e.printStackTrace(System.err);
+    	}
+    	return null;
     }
  
+
 
 	public Double getCOGX(int index)
     {
@@ -36,12 +45,44 @@ public class Camera extends Subsystem {
     		networkTable.retrieveValue("COG_X", array);
     		return array.get(index);
     	}
-    	catch(TableKeyNotDefinedException tknde)
+    	catch(TableKeyNotDefinedException e)
     	{
-    		tknde.printStackTrace(System.err);
+    		e.printStackTrace(System.err);
     	}
     	return null;
     }
+	
+	public Double getCOGY(int index) 
+    {
+    	try
+    	{
+    		NumberArray array = new NumberArray();
+    		networkTable.retrieveValue("COG_Y", array);
+    		return array.get(index);
+    	}
+    	catch(TableKeyNotDefinedException e)
+    	{
+    		e.printStackTrace(System.err);
+    	}
+    	return null;
+    }
+	
+	public Double getArea(int index) 
+    {
+    	try
+    	{
+    		NumberArray array = new NumberArray();
+    		networkTable.retrieveValue("AREA", array);
+    		return array.get(index);
+    	}
+    	catch(TableKeyNotDefinedException e)
+    	{
+    		e.printStackTrace(System.err);
+    	}
+    	return null;
+    }
+	
+	
     
 }
 

@@ -32,11 +32,16 @@ public class AutonomousCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		SmartDashboard.putNumber("Max Power", 0);
+		SmartDashboard.putNumber("Max Power", 1);
+		SmartDashboard.putNumber("Turn Direction", 1);
+		//can take value 1 or -1 to show direction of turning
+		SmartDashboard.putNumber("Strafe Direction", 1);
+		//takes a value of 1 or -1 to show direction of strafing
+		
 		SmartDashboard.putNumber("Time", 1);
 		SmartDashboard.putNumber("elevatorHeight", 0);// placeholder values
-		SmartDashboard.putNumber("elevatorRunTime", 1.0);
-		SmartDashboard.putNumber("elevatorRunPower", 0.0);
+		SmartDashboard.putNumber("clawRunTime", 1.0);
+		SmartDashboard.putNumber("clawRunPower", 0.0);
 		SmartDashboard.putString("Debug", "Initialized OK");
 		SmartDashboard.putNumber("CommandTime", 0.0);
 		Robot.forklift.setPowerMode();
@@ -68,9 +73,26 @@ public class AutonomousCommand extends Command {
 			}
 			if (Robot.oi.right.getRawButton(8)) {
 				Robot.forklift.setPowerMode();
-				current = new TestElevatorInPowerMode(
-						SmartDashboard.getNumber("elevatorRunTime"),
-						SmartDashboard.getNumber("elevatorRunPower"));
+				current = new TestClawInPowerMode(
+						SmartDashboard.getNumber("clawRunTime"),
+						SmartDashboard.getNumber("clawRunPower"));
+				Scheduler.getInstance().add(current);
+			}
+			if (Robot.oi.right.getRawButton(9)) {
+				SmartDashboard.putString("Debug", "In button 9 press");
+				current = new TurnByTime(
+						SmartDashboard.getNumber("Time"),
+						SmartDashboard.getNumber("Turn Direction")
+						);
+				Scheduler.getInstance().add(current);
+			}
+		
+			if (Robot.oi.right.getRawButton(10)) {
+				SmartDashboard.putString("Debug", "In button 10 press");
+				current = new StrafeByTime(
+						SmartDashboard.getNumber("Time"),
+						SmartDashboard.getNumber("Strafe Direction")
+						);
 				Scheduler.getInstance().add(current);
 			}
 		} else {
@@ -92,12 +114,12 @@ public class AutonomousCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-
+		Robot.forklift.setPowerMode();
 	}
 
 	// Called when another command which requires one or more of the
 	// same subsystems is scheduled to run
 	protected void interrupted() {
-
+		end();
 	}
 }

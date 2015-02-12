@@ -26,7 +26,7 @@ public class DriveTrain extends Subsystem {
     // END variables and stuff
 
     public void initDefaultCommand() {
-       //setDefaultCommand(new Drive());
+       setDefaultCommand(new Drive());
     }
   
     public double fixAccel(double previousPower, double desiredPower) {
@@ -54,7 +54,7 @@ public class DriveTrain extends Subsystem {
         double frontL = forward + rotate - straif;
         double frontR = forward - rotate + straif;
         
-        if(halfSpeed){
+        if(halfSpeed){ //sets half speed
         	setTalonSpeeds (halfSpeedMod * backR, halfSpeedMod * -backL,
         			        halfSpeedMod * -frontL, halfSpeedMod * frontR);
         }
