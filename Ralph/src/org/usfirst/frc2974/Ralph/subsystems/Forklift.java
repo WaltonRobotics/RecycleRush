@@ -1,4 +1,6 @@
 package org.usfirst.frc2974.Ralph.subsystems;
+import org.usfirst.frc2974.Ralph.RobotMap;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 //Forklift subsystem
@@ -31,24 +33,26 @@ public class Forklift extends Subsystem
 	private double zeroPosition = 0;
 	
 	//TODO get input from limit switch
-	private double rampRate = 10;
-	private int izone = 0;
-	private double p = 0.1;
+	private double rampRate;
+	private int izone;
+	private double p = 10;
 	private double i = 0;
 	private double d = 0;
 	private double f = 0;
+	private double deadband = 0.25;
+	
 	//TODO set values for p, i, d 
 	public final double LEVEL_MULTIPLIER = 20;
 	//TODO determine by how much the level # (1, 2, 3) must be multiplied to get postiion to raise the arm
 	//pos is in rotations: LEVEL_MULTIPLIERS = # rotations to raise the tote 1 level
-	public final double HEIGHT_CONSTANT = 1;//needs calibrating[see board picture on wiki]
+	public final double HEIGHT_CONSTANT = -12.1635; // Calibrated against 
 	
 	public final double MAX_POSITION_ERROR = 2;//placeholder value
 	
 	public final double MAX_POSITION = 500;//to be calibrated
 	
-	CANTalon elevatorTalon = new CANTalon(0); 
-	CANTalon clawTalon = new CANTalon(0);
+	CANTalon elevatorTalon; 
+	CANTalon clawTalon;
 	// TODO get motor reference 
 	//Encoder liftEncoder = new Encoder(0, 0);
 	//DigitalInput limitSwitch = new DigitalInput(0);
@@ -57,6 +61,10 @@ public class Forklift extends Subsystem
 	{
 		isHolding = false;
 		clawIsFullyOpen = false;
+		
+		elevatorTalon = RobotMap.elevatorTalon;
+		clawTalon = RobotMap.clawTalon;
+
 		elevatorTalon.ConfigRevLimitSwitchNormallyOpen(true);//assuming up = fwd, rev = down
 		elevatorTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);//potentiometer gives feedback
 		clawTalon.ConfigRevLimitSwitchNormallyOpen(true);
@@ -83,6 +91,14 @@ public class Forklift extends Subsystem
 	
 	public void setPositionMode()
 	{
+		Preferences prefs = Preferences.getInstance();
+		p = prefs.getDouble("E_P", 3);
+		i = prefs.getDouble("E_I", 0.02);
+		d = prefs.getDouble("E_D", 0.0);
+		izone = prefs.getInt("E_Izone", 5);
+		deadband = Math.abs(prefs.getDouble("E_Deadband", 0.25) * HEIGHT_CONSTANT);
+		rampRate = Math.abs(prefs.getDouble("E_RampRate", 10));
+		elevatorTalon.setPID(p, i, d, f, izone, rampRate, profile1);
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.Position);
 		elevatorTalon.set(elevatorTalon.getPosition());
 		elevatorTalon.enableControl();
@@ -91,7 +107,7 @@ public class Forklift extends Subsystem
 	//returns if the forklift is at the bottom and has closed the limit switch
 	public boolean isZero()
 	{
-		return elevatorTalon.isRevLimitSwitchClosed();
+		return elevatorTalon.isFwdLimitSwitchClosed();
 	}
 	
 	public boolean clawIsOpen()
@@ -134,14 +150,13 @@ public class Forklift extends Subsystem
 	//raises/lowers to a variable height(not dependent on levels)
 	public void setElevatorPower(double power)
 	{
-		setPowerMode();
 		power= Math.min(Math.max(power,-1), 1);		
-		elevatorTalon.set(power);		
+		elevatorTalon.set(-power);		
 	}
 	
 	public boolean isAtPosition()
 	{
-		return Math.abs(elevatorTalon.getClosedLoopError()) < MAX_POSITION_ERROR;		
+		return Math.abs(elevatorTalon.getClosedLoopError()) < deadband;		
 	}
 	
 	public void incrementElevatorPos(double dheight)
@@ -161,6 +176,12 @@ public class Forklift extends Subsystem
 	{
 		return (elevatorTalon.getSetpoint()-zeroPosition)/HEIGHT_CONSTANT;
 	}
+	
+	public double currentPosition()
+	{
+		return (elevatorTalon.getPosition()-zeroPosition)/HEIGHT_CONSTANT;
+	}
+	
 	/*//raises to max height(set # of levels?)
 	public void raiseToTop()
 	{
