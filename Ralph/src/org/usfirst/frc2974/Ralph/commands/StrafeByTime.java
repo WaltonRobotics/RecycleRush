@@ -40,7 +40,7 @@ public class StrafeByTime extends Command {
     	double powerDecel = C_DECEL * (time - timeToTravel);
     	double powerOut = Math.min(Math.min( powerAccel, powerDecel), powerSteady);
     	SmartDashboard.putNumber("Motor Power", powerOut);
-    	Robot.driveTrain.setSpeeds(0, Math.signum(power)*powerOut, 0);
+    	Robot.driveTrain.setSpeeds(0, 0, Math.signum(power)*powerOut);
     }
 
     // Make this return true when this Command no longer needs to run execute()

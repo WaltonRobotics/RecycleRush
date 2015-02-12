@@ -35,13 +35,13 @@ public class AutonomousCommand extends Command {
 		SmartDashboard.putNumber("Max Power", 1);
 		SmartDashboard.putNumber("Turn Direction", 1);
 		//can take value 1 or -1 to show direction of turning
-		SmartDashboard.putNumber("Strafe Direction", 1);
+		SmartDashboard.putNumber("Strafe Direction", -1);
 		//takes a value of 1 or -1 to show direction of strafing
 		
 		SmartDashboard.putNumber("Time", 1);
-		SmartDashboard.putNumber("elevatorHeight", 0);// placeholder values
+		SmartDashboard.putNumber("elevatorHeight", .5);// placeholder values
 		SmartDashboard.putNumber("elevatorRunTime", 1.0);
-		SmartDashboard.putNumber("elevatorRunPower", 0.0);
+		SmartDashboard.putNumber("elevatorRunPower", 0.5);
 		SmartDashboard.putString("Debug", "Initialized OK");
 		SmartDashboard.putNumber("CommandTime", 0.0);
 		Robot.forklift.setPowerMode();
