@@ -1,6 +1,6 @@
 package org.usfirst.frc2974.Ralph.commands;
 
-import org.usfirst.frc2974.Ralph.Robot;
+import org.usfirst.frc2974.Ralph.*;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -33,11 +33,11 @@ public class RaiseLowerTeleop extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double time = timer.get();
-    	if(Robot.oi.right.getRawButton(4))
+    	if(Robot.oi.xbox.getPOVButton(Gamepad.POV.N))
     	{
     		forklift.incrementElevatorPos(speed*(time-lastTime));
     	}
-    	else if(Robot.oi.right.getRawButton(2))
+    	else if(Robot.oi.xbox.getPOVButton(Gamepad.POV.S))
     	{
     		forklift.incrementElevatorPos(-speed*(time-lastTime));
     	}

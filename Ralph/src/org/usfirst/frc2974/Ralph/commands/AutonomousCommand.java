@@ -51,6 +51,7 @@ public class AutonomousCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+
 		SmartDashboard.putNumber("CommandTime", timeSinceInitialized());
 		SmartDashboard.putNumber("elevatorTarget", Robot.forklift.currentTarget());
 		SmartDashboard.putNumber("elevatorError", Robot.forklift.currentError());
