@@ -73,7 +73,7 @@ public class AutonomousCommand extends Command {
 			}
 			if (Robot.oi.right.getRawButton(8)) {
 				Robot.forklift.setPowerMode();
-				current = new TestElevatorInPowerMode(
+				current = new TestClawInPowerMode(
 						SmartDashboard.getNumber("elevatorRunTime"),
 						SmartDashboard.getNumber("elevatorRunPower"));
 				Scheduler.getInstance().add(current);
@@ -114,12 +114,12 @@ public class AutonomousCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-
+		Robot.forklift.setPowerMode();
 	}
 
 	// Called when another command which requires one or more of the
 	// same subsystems is scheduled to run
 	protected void interrupted() {
-
+		end();
 	}
 }

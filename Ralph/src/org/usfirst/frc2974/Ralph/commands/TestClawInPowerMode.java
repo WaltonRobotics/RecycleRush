@@ -4,54 +4,53 @@ import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class RaiseLowerTeleop extends Command {
-	private Forklift forklift;		
-	private double speed = 1;//in/sec
-	private double lastTime;
-	private Timer timer;
+public class TestClawInPowerMode extends Command {
+
+	private Forklift forklift;
+	private double timeToRun;
+	private double power;
+	private boolean finished;
 	
-    public RaiseLowerTeleop() 
-    {
+    public TestClawInPowerMode(double timeToRun, double power) {
+        
     	forklift = Robot.forklift;
-    	requires(forklift);
+        requires(forklift);
+    	this.timeToRun = timeToRun;
+    	this.power = power;
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {    	
-    	lastTime = 0;
+    protected void initialize() {
+    	
+    	forklift.setPowerMode();
+    	forklift.setClawMotor(power);
+    	finished = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	double time = timeSinceInitialized();
-    	if(Robot.oi.right.getRawButton(4))
-    	{
-    		forklift.incrementElevatorPos(speed*(time-lastTime));
-    	}
-    	else if(Robot.oi.right.getRawButton(2))
-    	{
-    		forklift.incrementElevatorPos(-speed*(time-lastTime));
-    	}
-    	lastTime = time;
+    protected void execute() {    	
+    	if (timeSinceInitialized() > timeToRun)
+    		finished = true;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return finished;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	forklift.setClawMotor(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
