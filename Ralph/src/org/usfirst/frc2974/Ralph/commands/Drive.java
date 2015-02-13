@@ -32,25 +32,34 @@ public class Drive extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		double throttle;
+		double forward;
+		double strafe;
+		double turn;
     	if(SmartDashboard.getBoolean("Cheesy")){
-    		//double leftY = (-Robot.oi.left.getY() +1)/2;
-    		double leftY = (-Robot.oi.right.getZ() +1)/2;
-    		double rightY = Robot.oi.right.getY();
-    		double rightX = -Robot.oi.right.getX();
-    		double rightZrotate = -Robot.oi.right.getRawAxis(3);
-    
-    		Robot.driveTrain.setSpeeds(leftY*rightY, leftY*rightZrotate, leftY*rightX);
-    		Robot.driveTrain.setHalfSpeed(Robot.oi.right.getTrigger()); //Sets half speed when trigger pressed
+    		//double leftY = (-Robot.oi.left.getY() +1)/2; use left joy instead of throttle on right joy
+    		throttle = ((-Robot.oi.right.getZ() +1)/2);
+    		forward = Robot.oi.right.getY();
+    		strafe = -Robot.oi.right.getX();
+    		turn = -Robot.oi.right.getRawAxis(3);
     	}
+    		
     	else{
-    		double modifier = 2; //Above 2 will limit top speed, Default is 2
-    		double forward = (Robot.oi.left.getY() + Robot.oi.right.getY()) / modifier;
-            double turn = (Robot.oi.left.getY() - Robot.oi.right.getY()) / modifier;
-            double strafe = -(Robot.oi.left.getX() + Robot.oi.right.getX()) / modifier;
-            Robot.driveTrain.setSpeeds(forward, turn, strafe);
-            Robot.driveTrain.setHalfSpeed(Robot.oi.right.getTrigger()); //Sets half speed when trigger pressed
+    		throttle = .5; //Above 2 will limit top speed, Default is 2
+    		forward = (Robot.oi.left.getY() + Robot.oi.right.getY()) ;
+            turn = (Robot.oi.left.getY() - Robot.oi.right.getY()) ;
+            strafe = -(Robot.oi.left.getX() + Robot.oi.right.getX()) ;
+
     	}
-    }
+    	
+    	SmartDashboard.putNumber("Drive forward", forward);
+		SmartDashboard.putNumber("Drive sideways", strafe);
+		SmartDashboard.putNumber("ZRotate", turn);
+		SmartDashboard.putNumber("throttle", throttle);
+		
+    	Robot.driveTrain.setSpeeds(throttle*forward, throttle*turn, throttle*strafe);
+		Robot.driveTrain.setHalfSpeed(Robot.oi.right.getTrigger()); //Sets half speed when trigger pressed
+	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
