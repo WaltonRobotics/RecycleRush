@@ -32,7 +32,7 @@ public class RaiseLowerTeleop extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double time = timer.get();
+    	double time = timeSinceInitialized();
     	if(Robot.oi.xbox.getPOVButton(Gamepad.POV.N))
     	{
     		forklift.incrementElevatorPos(speed*(time-lastTime));
@@ -41,6 +41,12 @@ public class RaiseLowerTeleop extends Command {
     	{
     		forklift.incrementElevatorPos(-speed*(time-lastTime));
     	}
+    	
+    	else if(Robot.oi.xbox.getLeftY()!=0)
+    	{
+    		forklift.incrementElevatorPos(-Robot.oi.xbox.getLeftY()*speed*(time-lastTime));
+    	}
+    	
     	lastTime = time;
     }
 
