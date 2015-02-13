@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *Opens Claw all the way at the beginning of the match
  */
-public class ClawOpen extends Command 
+public class OpenClaw extends Command 
 {
 	private Grabber grabber;
 	private boolean finished;
-    public ClawOpen() 
+    public OpenClaw() 
     {
     	grabber = Robot.grabber;
     	requires(grabber);    	

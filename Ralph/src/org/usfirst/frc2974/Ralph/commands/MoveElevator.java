@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class RaiseLowerTeleop extends Command {
+public class MoveElevator extends Command {
 	private Forklift forklift;	
 	private Grabber grabber;
 	private double speed = 10;//in/sec
 	private double lastTime;
 	
-    public RaiseLowerTeleop() 
+    public MoveElevator() 
     {
     	forklift = Robot.forklift;
     	grabber = Robot.grabber;

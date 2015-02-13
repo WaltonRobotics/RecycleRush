@@ -1,4 +1,4 @@
-package org.usfirst.frc2974.Ralph.commands;
+package org.usfirst.frc2974.Ralph.autonomous;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

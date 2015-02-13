@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *switches elevator to position mode
  *raises elevator to neutral position(just a little above the ground for driving)
  */
-public class ForkliftZero extends Command {
+public class ForkliftZero extends Command {//TODO this command needs to open claw as well
 
 	private Forklift forklift;
 	private boolean finished;
