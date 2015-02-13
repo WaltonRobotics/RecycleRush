@@ -26,14 +26,14 @@ public class TurnByTime extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	double time = timeSinceInitialized();
-//    	double powerSteady = Math.abs(power);
-//    	double powerAccel = C_ACCEL * time;
-//    	double powerDecel = C_DECEL * (time - timeToTravel);
-//    	double powerOut = Math.min(Math.min( powerAccel, powerDecel), powerSteady);
-//    	SmartDashboard.putNumber("Motor Power", powerOut);
-//    	Robot.driveTrain.setSpeeds(0, Math.signum(power)*powerOut, 0);
-    	Robot.driveTrain.setSpeeds(1, 1, 1);
+    	double time = timeSinceInitialized();
+    	double powerSteady = Math.abs(power);
+    	double powerAccel = C_ACCEL * time;
+    	double powerDecel = C_DECEL * (time - timeToTravel);
+    	double powerOut = Math.min(Math.min( powerAccel, powerDecel), powerSteady);
+    	SmartDashboard.putNumber("Motor Power", powerOut);
+    	Robot.driveTrain.setSpeeds(0, Math.signum(power)*powerOut, 0);
+    	//Robot.driveTrain.setSpeeds(1, 1, 1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
