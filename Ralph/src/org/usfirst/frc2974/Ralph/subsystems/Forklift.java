@@ -9,14 +9,17 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //switch to see bottom
 //2 CAN Talons - 1 for elevator, 1 for claw
 //-possibly- a brake on elevator(PID controlled), need to turn on/off;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**DESIGNERS' NOTE: DO NOT USE A VALUE OF 1 FOR A PARAMETER FOR ANYTHING UNLESS YOU 
 *WANT THE ROBOT TO LAUNCH ITS PARTS AT HIGH SPEEDS AT SOMETHING
 *.....seriously
 */
 
-public class Forklift extends Subsystem
+public final class Forklift extends Subsystem
 {
+	private static int timesIncremented=0;
+	
 	public void initDefaultCommand(){
 		setDefaultCommand(null);
 	}
@@ -36,29 +39,41 @@ public class Forklift extends Subsystem
 	private double deadband = 0.25;
 	public final int profile1 = 1;
 	
-	//TODO set values for p, i, d 
-	public final double LEVEL_MULTIPLIER = 20;
+	public final double LEVEL_MULTIPLIER = 12;
 	//TODO determine by how much the level # (1, 2, 3) must be multiplied to get postiion to raise the arm
 	//pos is in rotations: LEVEL_MULTIPLIERS = # rotations to raise the tote 1 level
-	public final double HEIGHT_CONSTANT = -12.1635; // Calibrated against 
-	
+	public final double HEIGHT_CONSTANT = 12.1635; // Calibrated against 
+//	public final double HEIGHT_CONSTANT = 1;
 	public final double MAX_POSITION = 55;//to be calibrated
-	
+
 	CANTalon elevatorTalon; 
+	boolean isInPositionMode = false;
 	
 	public Forklift()
 	{
-
-		
 		
 		elevatorTalon = RobotMap.elevatorTalon;
 
 		elevatorTalon.ConfigRevLimitSwitchNormallyOpen(true);//assuming up = down, rev = up
 		elevatorTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);//potentiometer gives feedback
+		//elevatorTalon.reverseSensor(true);
 		
-		setPowerMode();
+		setPositionMode();
 	}
 	//These are methods used in ForkliftZero command
+	public void increment(final double amount){
+		elevatorTalon.set(elevatorTalon.getSetpoint()+amount);
+		if(amount<0){
+			timesIncremented--;
+			return;
+		}
+		timesIncremented++;
+	}
+	
+	public int timesIncremented(){
+		return timesIncremented;
+	}
+	
 	public void setPowerMode()
 	{
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
@@ -79,6 +94,8 @@ public class Forklift extends Subsystem
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.Position);
 		elevatorTalon.set(elevatorTalon.getPosition());
 		elevatorTalon.enableControl();
+		
+		isInPositionMode = true;
 	}
 	
 	//returns if the forklift is at the bottom and has closed the limit switch
@@ -90,7 +107,8 @@ public class Forklift extends Subsystem
 
 	public void resetPot()
 	{
-		zeroPosition = elevatorTalon.getPosition();		
+		zeroPosition = elevatorTalon.getPosition();	
+		//zeroPosition = -644;
 	}	
 	
 	// <\methods used in ForkliftZero>
@@ -98,8 +116,11 @@ public class Forklift extends Subsystem
 
 	public void setElevatorPosition(double height)
 	{		
-		double pos = HEIGHT_CONSTANT*height+zeroPosition;
+		//double pos = HEIGHT_CONSTANT*height+zeroPosition;
+		double pos = HEIGHT_CONSTANT*height;
 		elevatorTalon.set(pos);
+		SmartDashboard.putNumber("Position", pos);
+		
 	}
 	
 	//raises/lowers to a variable height(not dependent on levels)
@@ -116,9 +137,13 @@ public class Forklift extends Subsystem
 	
 	public void incrementElevatorPos(double dheight)
 	{
+		SmartDashboard.putNumber("dheight", dheight);
 		double height = currentTarget() + dheight;
-		height= Math.min(Math.max(height,zeroPosition), MAX_POSITION);	
+		SmartDashboard.putNumber("height", height);
+		height= Math.max(Math.min(height,zeroPosition), MAX_POSITION);
+		SmartDashboard.putNumber("constrained height", height);
 		setElevatorPosition(height);
+		
 	}
 	
 	public double currentError()

@@ -1,7 +1,10 @@
 package org.usfirst.frc2974.Ralph.commands;
 
 import org.usfirst.frc2974.Ralph.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
