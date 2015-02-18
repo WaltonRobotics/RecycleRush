@@ -80,13 +80,21 @@ public class AutonomousCommand extends Command {
 						SmartDashboard.getNumber("elevatorHeight"));
 				Scheduler.getInstance().add(current);
 			}
+//			if (Robot.oi.right.getRawButton(8)) {
+//				Robot.forklift.setPowerMode();
+//				current = new TestClawInPowerMode(
+//						SmartDashboard.getNumber("clawRunTime"),
+//						SmartDashboard.getNumber("clawRunPower"));
+//				Scheduler.getInstance().add(current);
+//			}
 			if (Robot.oi.right.getRawButton(8)) {
 				Robot.forklift.setPowerMode();
-				current = new TestClawInPowerMode(
-						SmartDashboard.getNumber("clawRunTime"),
-						SmartDashboard.getNumber("clawRunPower"));
+				current = new TestElevatorInPowerMode(
+						SmartDashboard.getNumber("elevatorRunTime"),
+						SmartDashboard.getNumber("elevatorRunPower"));
 				Scheduler.getInstance().add(current);
 			}
+			
 			if (Robot.oi.right.getRawButton(9)) {
 				SmartDashboard.putString("Debug", "In button 9 press");
 				current = new TurnByTime(
