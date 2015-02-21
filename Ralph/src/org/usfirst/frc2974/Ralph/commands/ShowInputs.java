@@ -10,12 +10,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class ShowInputs extends Command {
-
     public ShowInputs() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.inputs);
     }
-
+    
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.inputs.updateSmartDashboard();

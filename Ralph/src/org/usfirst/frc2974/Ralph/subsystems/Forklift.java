@@ -28,6 +28,8 @@ public final class Forklift extends Subsystem
 	//after elevator is zeroed, raises to this for safe driving
 
 	private double zeroPosition = 0;
+	private double speed = 0;
+	private double lastSetPower=0;
 	
 	//TODO get input from limit switch
 	private double rampRate;
@@ -38,47 +40,52 @@ public final class Forklift extends Subsystem
 	private double f = 0;
 	private double deadband = 0.25;
 	public final int profile1 = 1;
+	private int softLimitFwd;
+	private int softLimitRvs;
 	
 	public final double LEVEL_MULTIPLIER = 12;
 	//TODO determine by how much the level # (1, 2, 3) must be multiplied to get postiion to raise the arm
 	//pos is in rotations: LEVEL_MULTIPLIERS = # rotations to raise the tote 1 level
-	public final double HEIGHT_CONSTANT = 12.1635; // Calibrated against 
+	public final double HEIGHT_CONSTANT = -12.1635; // Calibrated against 
 //	public final double HEIGHT_CONSTANT = 1;
 	public final double MAX_POSITION = 55;//to be calibrated
 
 	CANTalon elevatorTalon; 
-	boolean isInPositionMode = false;
+	private boolean isInPositionMode = false;
 	
 	public Forklift()
 	{
 		
 		elevatorTalon = RobotMap.elevatorTalon;
 
-		elevatorTalon.ConfigRevLimitSwitchNormallyOpen(true);
 		elevatorTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);//potentiometer gives feedback
-		//elevatorTalon.reverseSensor(true);
+		elevatorTalon.reverseSensor(true);
 		
-		setPositionMode();
+		setPowerMode();
 	}
 	//These are methods used in ForkliftZero command
-	public void increment(final double amount){
-		elevatorTalon.set(elevatorTalon.getSetpoint()+amount);
-		if(amount<0){
-			timesIncremented--;
-			return;
-		}
-		timesIncremented++;
-	}
-	
-	public int timesIncremented(){
-		return timesIncremented;
-	}
+//	public void increment(final double amount){
+//		elevatorTalon.set(elevatorTalon.getSetpoint()+amount);
+//		if(amount<0){
+//			timesIncremented--;
+//			return;
+//		}
+//		timesIncremented++;
+//	}
+//	
+//	public int timesIncremented(){
+//		return timesIncremented;
+//	}
 	
 	public void setPowerMode()
 	{
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
+
+		elevatorTalon.enableForwardSoftLimit(false);
+		elevatorTalon.enableReverseSoftLimit(false);
 		//will there be brake functionality?
 		elevatorTalon.enableControl();
+		isInPositionMode = false;
 	}
 	
 	public void setPositionMode()
@@ -91,7 +98,19 @@ public final class Forklift extends Subsystem
 		deadband = Math.abs(prefs.getDouble("E_Deadband", 0.25) * HEIGHT_CONSTANT);
 		rampRate = Math.abs(prefs.getDouble("E_RampRate", 10));
 		elevatorTalon.setPID(p, i, d, f, izone, rampRate, profile1);
+		
+		softLimitFwd = prefs.getInt("E_SoftLimitForward", -400);
+		softLimitRvs = prefs.getInt("E_SoftLimitReverse", -800);
+		
+		speed = prefs.getDouble("E_Speed", 1);
+		
+		elevatorTalon.setForwardSoftLimit(softLimitFwd);
+		elevatorTalon.setReverseSoftLimit(softLimitRvs);
+		elevatorTalon.enableForwardSoftLimit(true);
+		elevatorTalon.enableReverseSoftLimit(true);
+		
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.Position);
+		
 		elevatorTalon.set(elevatorTalon.getPosition());
 		elevatorTalon.enableControl();
 		
@@ -101,49 +120,63 @@ public final class Forklift extends Subsystem
 	//returns if the forklift is at the bottom and has closed the limit switch
 	public boolean isZero()
 	{
-		return elevatorTalon.isFwdLimitSwitchClosed();
+//		return elevatorTalon.isFwdLimitSwitchClosed();
+		return false;//TODO read hall effect sensor /properly/
 	}
 	
 
 	public void resetPot()
 	{
-		zeroPosition = elevatorTalon.getPosition();	
-		//zeroPosition = -644;
+		zeroPosition = elevatorTalon.getPosition();
 	}	
 	
 	// <\methods used in ForkliftZero>
 	
 
 	public void setElevatorPosition(double height)
-	{		
-		//double pos = HEIGHT_CONSTANT*height+zeroPosition;
-		double pos = HEIGHT_CONSTANT*height;
-		elevatorTalon.set(pos);
-		SmartDashboard.putNumber("Position", pos);
-		
-	}
-	
-	//raises/lowers to a variable height(not dependent on levels)
-	public void setElevatorPower(double power)
 	{
-		power= Math.min(Math.max(power,-1), 1);		
-		elevatorTalon.set(-power);		
+		double pos = HEIGHT_CONSTANT*height+zeroPosition;
+		pos = Math.max(softLimitFwd, Math.min(softLimitRvs, pos));
+		elevatorTalon.set(pos);
+		
 	}
 	
 	public boolean isAtPosition()
 	{
 		return Math.abs(elevatorTalon.getClosedLoopError()) < deadband;		
 	}
-	
-	public void incrementElevatorPos(double dheight)
-	{
-		SmartDashboard.putNumber("dheight", dheight);
-		double height = currentTarget() + dheight;
-		SmartDashboard.putNumber("height", height);
-		height= Math.max(Math.min(height,zeroPosition), MAX_POSITION);
-		SmartDashboard.putNumber("constrained height", height);
-		setElevatorPosition(height);
+	/**
+	 * 
+	 * @param rate value between -1 and 1 that represents the speed to which the elevator is set
+	 * @param dTime value in seconds
+	 */
+	public void move(double rate, double dTime){
+		if(!isInPositionMode){
+
+			rate= Math.min(Math.max(rate,-1), 1);		
+			elevatorTalon.set(-rate);
+			lastSetPower = rate;
+			return;
+		}
+		double dheight = -rate * speed * dTime;
 		
+		double height = currentTarget() + dheight;
+//		height= Math.max(Math.min(height,zeroPosition), MAX_POSITION);
+		setElevatorPosition(height);
+	}
+	
+	double holdPower = .05;
+	/**
+	 * Tries to make this forklift stay put (not move up and down)
+	 * @return
+	 */
+	public void hold(){
+		if(!isInPositionMode){
+			elevatorTalon.set(-holdPower);
+			lastSetPower = holdPower;
+			return;
+		}
+		elevatorTalon.set(elevatorTalon.getPosition());
 	}
 	
 	public double currentError()
@@ -161,5 +194,13 @@ public final class Forklift extends Subsystem
 		return (elevatorTalon.getPosition()-zeroPosition)/HEIGHT_CONSTANT;
 	}
 	
-	
+	public void updateSmartDashboard(){
+		SmartDashboard.putString("MODE", isInPositionMode?"PositionMode":"PowerMode");
+		SmartDashboard.putNumber("RawPotValue", elevatorTalon.getPosition());
+		SmartDashboard.putNumber("Last setPower()",lastSetPower);
+		SmartDashboard.putNumber("CurrentPosition", currentPosition());
+		SmartDashboard.putNumber("CurrentTarget", currentTarget());
+		SmartDashboard.putNumber("CurrentError", currentError());
+		SmartDashboard.putNumber("ZeroPosition", zeroPosition);
+	}
 }
