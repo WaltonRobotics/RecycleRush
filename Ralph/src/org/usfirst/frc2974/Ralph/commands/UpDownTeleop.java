@@ -58,7 +58,10 @@ public class UpDownTeleop extends Command {
  			double joyIn = Robot.oi.xbox.getLeftY();
  			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0) * Math.signum(joyIn);
  			forklift.move(-move, time-lastTime);
-    	} 		
+    	} 
+    	else if(Robot.oi.xbox.getButton(Gamepad.Button.Y)) {
+    		forklift.resetPot();
+    	}
     	else
     		forklift.hold();//not do anything
     	

@@ -1,6 +1,8 @@
 package org.usfirst.frc2974.Ralph.subsystems;
 
 import org.usfirst.frc2974.Ralph.RobotMap;
+import org.usfirst.frc2974.Ralph.commands.Grab;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -31,6 +33,7 @@ public Grabber()
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new Grab());
     }
     
     public void setPowerMode()

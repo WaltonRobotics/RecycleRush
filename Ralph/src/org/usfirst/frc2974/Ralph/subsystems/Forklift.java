@@ -2,6 +2,7 @@ package org.usfirst.frc2974.Ralph.subsystems;
 import java.util.Iterator;
 
 import org.usfirst.frc2974.Ralph.RobotMap;
+import org.usfirst.frc2974.Ralph.commands.UpDownTeleop;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,7 +24,7 @@ public final class Forklift extends Subsystem
 	private static int timesIncremented=0;
 	
 	public void initDefaultCommand(){
-		setDefaultCommand(null);
+		setDefaultCommand(new UpDownTeleop());
 	}
 
 	public final double NEUTRAL_POS = 6;
