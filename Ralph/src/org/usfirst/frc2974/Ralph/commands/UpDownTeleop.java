@@ -42,11 +42,11 @@ public class UpDownTeleop extends Command {
     	
     	if(Robot.oi.xbox.getPOVButton(Gamepad.POV.N))
     	{
-    		forklift.move(-.1, time-lastTime);
+    		forklift.move(.75, time-lastTime);
     	}
     	else if(Robot.oi.xbox.getPOVButton(Gamepad.POV.S))
     	{
-    		forklift.move(.1,time-lastTime);
+    		forklift.move(-.75,time-lastTime);
     	}
     	else if (Math.abs(Robot.oi.xbox.getLeftY()) > .1) {
  			double joyIn = Robot.oi.xbox.getLeftY();
