@@ -34,7 +34,7 @@ public class TestElevatorInPowerMode extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	forklift.setPowerMode();
-    	forklift.setElevatorPower(power);
+    	forklift.move(power, 0.0);
     	finished = false;
     }
 
@@ -53,7 +53,7 @@ public class TestElevatorInPowerMode extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	forklift.setElevatorPower(0);
+    	forklift.hold();
     }
 
     // Called when another command which requires one or more of the same

@@ -18,11 +18,13 @@ public class ShowInputs extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.inputs.updateSmartDashboard();
+    	Robot.forklift.updateSmartDashboard();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.inputs.updateSmartDashboard();
+    	//Robot.forklift.updateSmartDashboard();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -37,5 +39,7 @@ public class ShowInputs extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.inputs.updateSmartDashboard();
+    	Robot.forklift.updateSmartDashboard();
     }
 }

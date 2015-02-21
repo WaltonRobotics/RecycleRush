@@ -31,7 +31,7 @@ public class ForkliftZero extends Command {//TODO this command needs to open cla
     {
     	finished = false;
     	forklift.setPowerMode();
-    	forklift.setElevatorPower(-0.1);
+    	forklift.move(-0.1, 0.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,7 +39,7 @@ public class ForkliftZero extends Command {//TODO this command needs to open cla
     {
     	if(forklift.isZero())
     	{
-    		forklift.setElevatorPower(0.0);
+    		forklift.move(0.0, 0.0);
     		forklift.resetPot();
     		forklift.setPositionMode();
     		forklift.setElevatorPosition(forklift.NEUTRAL_POS);

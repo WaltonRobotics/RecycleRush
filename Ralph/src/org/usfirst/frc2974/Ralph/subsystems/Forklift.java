@@ -124,6 +124,10 @@ public final class Forklift extends Subsystem
 		return false;//TODO read hall effect sensor /properly/
 	}
 	
+	public boolean isPositionMode()
+	{
+		return isInPositionMode;
+	}
 
 	public void resetPot()
 	{
@@ -155,7 +159,7 @@ public final class Forklift extends Subsystem
 
 			rate= Math.min(Math.max(rate,-1), 1);		
 			elevatorTalon.set(-rate);
-			lastSetPower = rate;
+			lastSetPower = -rate;
 			return;
 		}
 		double dheight = -rate * speed * dTime;
@@ -173,7 +177,7 @@ public final class Forklift extends Subsystem
 	public void hold(){
 		if(!isInPositionMode){
 			elevatorTalon.set(-holdPower);
-			lastSetPower = holdPower;
+			lastSetPower = -holdPower;
 			return;
 		}
 		elevatorTalon.set(elevatorTalon.getPosition());

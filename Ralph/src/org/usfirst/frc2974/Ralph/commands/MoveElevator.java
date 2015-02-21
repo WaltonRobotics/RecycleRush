@@ -57,7 +57,7 @@ public class MoveElevator extends Command {
 			//SmartDashboard.putString("Debug", "Going up" +incrementElevatorPos);
 			//forklift.incrementElevatorPos(incrementElevatorPos);//(time - lastTime));
 			//forklift.setElevatorPosition(-6);
-			forklift.increment(5);
+			//forklift.increment(5);
 		} 
 		else if (!Robot.oi.xbox.getPOVButton(Gamepad.POV.S) && ifSPressed) {
 			//SmartDashboard.putString("Debug", "Going down" + -speed);
@@ -65,7 +65,7 @@ public class MoveElevator extends Command {
 			//forklift.incrementElevatorPos(incrementElevatorPos); //*(time-lastTime));
 			//forklift.incrementElevatorPos(-1);
 //			forklift.setElevatorPosition(3);
-			forklift.increment(-5);
+			//forklift.increment(-5);
 			
 		}
 
@@ -76,7 +76,7 @@ public class MoveElevator extends Command {
 			incrementElevatorPos = -move * speed * (time - lastTime);
 			//forklift.incrementElevatorPos(incrementElevatorPos);
 			//forklift.setElevatorPosition(0);
-			forklift.increment(0);
+			//forklift.increment(0);
 			
 			//SmartDashboard.putString("Debug", "Going up" +incrementAmount);
 			
@@ -116,7 +116,7 @@ public class MoveElevator extends Command {
 		ifSPressed = Robot.oi.xbox.getPOVButton(Gamepad.POV.S);
 		
 //		SmartDashboard.putString("Debug", "" +incrementElevatorPos);
-		SmartDashboard.putNumber("Times Incremented", forklift.timesIncremented());
+		//SmartDashboard.putNumber("Times Incremented", forklift.timesIncremented());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

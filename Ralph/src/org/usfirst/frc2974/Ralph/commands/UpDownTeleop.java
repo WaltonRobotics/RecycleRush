@@ -29,15 +29,16 @@ public class UpDownTeleop extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	forklift.updateSmartDashboard();
     	double time = timeSinceInitialized();
     	
     	if(Robot.oi.xbox.getPOVButton(Gamepad.POV.N))
     	{
-    		forklift.move(-.1, time-lastTime);
+    		forklift.move(.75, time-lastTime);
     	}
     	else if(Robot.oi.xbox.getPOVButton(Gamepad.POV.S))
     	{
-    		forklift.move(.1,time-lastTime);
+    		forklift.move(-.75,time-lastTime);
     	}
     	else
     		forklift.hold();//not do anything
