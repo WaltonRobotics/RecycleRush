@@ -1,5 +1,6 @@
 package org.usfirst.frc2974.Ralph.commands;
 
+import org.usfirst.frc2974.Ralph.Gamepad;
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
 
@@ -27,16 +28,16 @@ public class UpDownTeleop extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.oi.right.getRawButton(7))
+    	if(Robot.oi.xbox.getPOVButton(Gamepad.POV.N))
     	{
-    		forklift.setElevatorPower(-.1);
+    		forklift.move(-.1, 0);
     	}
-    	else if(Robot.oi.right.getRawButton(8))
+    	else if(Robot.oi.xbox.getPOVButton(Gamepad.POV.S))
     	{
-    		forklift.setElevatorPower(.1);
+    		forklift.move(.1,0);
     	}
     	else
-    		forklift.setElevatorPower(-.05);
+    		forklift.move(-.05);
     	finished = true;
     }
 
