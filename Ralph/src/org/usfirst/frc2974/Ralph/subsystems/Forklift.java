@@ -65,7 +65,7 @@ public class Forklift extends Subsystem
 		elevatorTalon = RobotMap.elevatorTalon;
 		clawTalon = RobotMap.clawTalon;
 
-		elevatorTalon.ConfigRevLimitSwitchNormallyOpen(true);//assuming up = down, rev = up
+		elevatorTalon.ConfigRevLimitSwitchNormallyOpen(true);
 		elevatorTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);//potentiometer gives feedback
 		clawTalon.ConfigRevLimitSwitchNormallyOpen(true);
 		clawTalon.ConfigFwdLimitSwitchNormallyOpen(true);
