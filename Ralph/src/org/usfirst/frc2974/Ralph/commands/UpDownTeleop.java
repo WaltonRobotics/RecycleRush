@@ -31,6 +31,15 @@ public class UpDownTeleop extends Command {
     protected void execute() {
     	double time = timeSinceInitialized();
     	
+    	if(Robot.oi.xbox.getButton(Gamepad.Button.START) && !forklift.isPositionMode())
+    	{
+    		forklift.setPositionMode();
+    	}
+    	else if(Robot.oi.xbox.getButton(Gamepad.Button.BACK) && forklift.isPositionMode())
+    	{
+    		forklift.setPowerMode();
+    	}
+    	
     	if(Robot.oi.xbox.getPOVButton(Gamepad.POV.N))
     	{
     		forklift.move(-.1, time-lastTime);
@@ -39,6 +48,11 @@ public class UpDownTeleop extends Command {
     	{
     		forklift.move(.1,time-lastTime);
     	}
+    	else if (Math.abs(Robot.oi.xbox.getLeftY()) > .1) {
+ 			double joyIn = Robot.oi.xbox.getLeftY();
+ 			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0);
+ 			forklift.move(move, time-lastTime);
+    	} 		
     	else
     		forklift.hold();//not do anything
     	
