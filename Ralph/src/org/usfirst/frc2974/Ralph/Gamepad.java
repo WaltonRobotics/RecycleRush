@@ -155,7 +155,7 @@ public class Gamepad extends Joystick
 	 */
 	public enum Button
 	{
-		A( 0 ), B( 1 ), X( 2 ), Y( 3 ), L( 4 ), R( 5 ), BACK( 6 ), START( 7 );
+		A( 1 ), B( 2 ), X( 3 ), Y( 4 ), L( 5 ), R( 6 ), BACK( 7 ), START( 8 );
 
 		private int	index;
 

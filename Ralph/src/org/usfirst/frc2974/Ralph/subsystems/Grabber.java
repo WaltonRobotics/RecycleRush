@@ -11,6 +11,7 @@ public class Grabber extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+	
 	CANTalon clawTalon;
 	private boolean isHolding;
 	private boolean clawIsFullyOpen;

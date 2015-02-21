@@ -86,6 +86,7 @@ public class OI {
 	    SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
 //        SmartDashboard.putData("TeleopForklift Command", new MoveElevator());
 	    SmartDashboard.putData("UpDownTeleop", new UpDownTeleop());
+	    SmartDashboard.putData(new Grab());
         
         // end Smart Dashboard buttons
         

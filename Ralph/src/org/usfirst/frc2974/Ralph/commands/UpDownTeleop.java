@@ -6,6 +6,7 @@ import org.usfirst.frc2974.Ralph.subsystems.Forklift;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *Push button, move forklift
@@ -34,10 +35,12 @@ public class UpDownTeleop extends Command {
     	
     	if(Robot.oi.xbox.getButton(Gamepad.Button.START) && !forklift.isPositionMode())
     	{
+    		SmartDashboard.putString("Debug", "going to position mode");
     		forklift.setPositionMode();
     	}
     	else if(Robot.oi.xbox.getButton(Gamepad.Button.BACK) && forklift.isPositionMode())
     	{
+    		SmartDashboard.putString("Debug", "going to power mode");
     		forklift.setPowerMode();
     	}
     	
@@ -51,8 +54,8 @@ public class UpDownTeleop extends Command {
     	}
     	else if (Math.abs(Robot.oi.xbox.getLeftY()) > .1) {
  			double joyIn = Robot.oi.xbox.getLeftY();
- 			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0);
- 			forklift.move(move, time-lastTime);
+ 			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0) * Math.signum(joyIn);
+ 			forklift.move(-move, time-lastTime);
     	} 		
     	else
     		forklift.hold();//not do anything

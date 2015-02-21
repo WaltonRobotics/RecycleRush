@@ -89,28 +89,10 @@ public class MoveElevator extends Command {
 			incrementElevatorPos =0;
 		}
 
-		if (Math.abs(Robot.oi.xbox.getLeftTrigger()) > .1) {
-			double joyIn = Robot.oi.xbox.getLeftTrigger();
-			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0)
-					* Math.signum(joyIn);
 
-			SmartDashboard.putString("Debug", "Opening " + move);
-			grabber.setClawPower(move);
-		} else if (Math.abs(Robot.oi.xbox.getRightTrigger()) > .1) {
-			double joyIn = Robot.oi.xbox.getRightTrigger();
-			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0)
-					* Math.signum(joyIn);
-			double current = grabber.readCurrent();
-			if (Math.abs(current) > 1) {
-				move = Math.max(move, .25);
-			}
-
-			SmartDashboard.putString("Debug", "Closing " + move);
-			grabber.setClawPower(-move);
-		}
 
 		lastTime = time;
-		SmartDashboard.putNumber("Grabber current", grabber.readCurrent());
+		
 		
 		ifNPressed = Robot.oi.xbox.getPOVButton(Gamepad.POV.N);
 		ifSPressed = Robot.oi.xbox.getPOVButton(Gamepad.POV.S);

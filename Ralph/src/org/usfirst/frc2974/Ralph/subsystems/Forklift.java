@@ -140,7 +140,7 @@ public final class Forklift extends Subsystem
 	public void setElevatorPosition(double height)
 	{
 		double pos = HEIGHT_CONSTANT*height+zeroPosition;
-		pos = Math.max(softLimitFwd, Math.min(softLimitRvs, pos));
+		pos = Math.min(softLimitFwd, Math.max(softLimitRvs, pos));
 		elevatorTalon.set(pos);
 		
 	}
@@ -162,7 +162,7 @@ public final class Forklift extends Subsystem
 			lastSetPower = -rate;
 			return;
 		}
-		double dheight = -rate * speed * dTime;
+		double dheight = rate * speed * dTime;
 		
 		double height = currentTarget() + dheight;
 //		height= Math.max(Math.min(height,zeroPosition), MAX_POSITION);
@@ -180,7 +180,7 @@ public final class Forklift extends Subsystem
 			lastSetPower = -holdPower;
 			return;
 		}
-		elevatorTalon.set(elevatorTalon.getPosition());
+//		elevatorTalon.set(elevatorTalon.getPosition());
 	}
 	
 	public double currentError()
