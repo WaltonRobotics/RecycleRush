@@ -1,4 +1,6 @@
 package org.usfirst.frc2974.Ralph.subsystems;
+import java.util.Iterator;
+
 import org.usfirst.frc2974.Ralph.RobotMap;
 
 import edu.wpi.first.wpilibj.*;
@@ -43,6 +45,7 @@ public final class Forklift extends Subsystem
 	private int softLimitFwd;
 	private int softLimitRvs;
 	
+	public final double LEVEL_DEADBAND = 1;
 	public final double LEVEL_MULTIPLIER = 12;
 	//TODO determine by how much the level # (1, 2, 3) must be multiplied to get postiion to raise the arm
 	//pos is in rotations: LEVEL_MULTIPLIERS = # rotations to raise the tote 1 level
@@ -52,6 +55,8 @@ public final class Forklift extends Subsystem
 
 	CANTalon elevatorTalon; 
 	private boolean isInPositionMode = false;
+	
+	private final double[] LEVELS = {0, 12, 24, 36, 48, 60}; 
 	
 	public Forklift()
 	{
@@ -181,6 +186,37 @@ public final class Forklift extends Subsystem
 			return;
 		}
 //		elevatorTalon.set(elevatorTalon.getPosition());
+	}
+	
+	public void changeLevel(boolean isUp)
+	{
+		double currentPos = currentPosition();
+		double target = currentPos;
+		
+		if(isUp)
+		{			
+			for(double iLvl: LEVELS)
+			{
+				if(currentPos < iLvl-LEVEL_DEADBAND/2)
+				{
+					target = iLvl;	
+					break;
+				}
+			}
+		}
+		
+		else
+		{
+			for(int i=LEVELS.length-1; i>=0; i--)
+			{
+				if(currentPos > LEVELS[i] + LEVEL_DEADBAND/2)
+				{
+					target = LEVELS[i];
+					break;
+				}
+			}
+		}
+		setElevatorPosition(target);
 	}
 	
 	public double currentError()
