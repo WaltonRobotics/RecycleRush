@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2974.Ralph.Robot;
+import org.usfirst.frc2974.Ralph.autonomous.RaiseLowerAuton;
+import org.usfirst.frc2974.Ralph.autonomous.StrafeByTime;
+import org.usfirst.frc2974.Ralph.autonomous.TurnByTime;
 
 /**
  *
@@ -35,13 +38,18 @@ public class AutonomousCommand extends Command {
 		SmartDashboard.putNumber("Max Power", 1);
 		SmartDashboard.putNumber("Turn Direction", 1);
 		//can take value 1 or -1 to show direction of turning
-		SmartDashboard.putNumber("Strafe Direction", 1);
+		SmartDashboard.putNumber("Strafe Direction", -1);
 		//takes a value of 1 or -1 to show direction of strafing
 		
 		SmartDashboard.putNumber("Time", 1);
-		SmartDashboard.putNumber("elevatorHeight", 0);// placeholder values
+		
+		SmartDashboard.putNumber("clawRunTime", 1.0);// placeholder values
+		SmartDashboard.putNumber("clawRunPower", 0.0);
+
+		SmartDashboard.putNumber("elevatorHeight", .5);
 		SmartDashboard.putNumber("elevatorRunTime", 1.0);
-		SmartDashboard.putNumber("elevatorRunPower", 0.0);
+		SmartDashboard.putNumber("elevatorRunPower", 0.5);
+
 		SmartDashboard.putString("Debug", "Initialized OK");
 		SmartDashboard.putNumber("CommandTime", 0.0);
 		Robot.forklift.setPowerMode();
@@ -51,6 +59,7 @@ public class AutonomousCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+
 		SmartDashboard.putNumber("CommandTime", timeSinceInitialized());
 		SmartDashboard.putNumber("elevatorTarget", Robot.forklift.currentTarget());
 		SmartDashboard.putNumber("elevatorError", Robot.forklift.currentError());
@@ -71,13 +80,21 @@ public class AutonomousCommand extends Command {
 						SmartDashboard.getNumber("elevatorHeight"));
 				Scheduler.getInstance().add(current);
 			}
+//			if (Robot.oi.right.getRawButton(8)) {
+//				Robot.forklift.setPowerMode();
+//				current = new TestClawInPowerMode(
+//						SmartDashboard.getNumber("clawRunTime"),
+//						SmartDashboard.getNumber("clawRunPower"));
+//				Scheduler.getInstance().add(current);
+//			}
 			if (Robot.oi.right.getRawButton(8)) {
 				Robot.forklift.setPowerMode();
-				current = new TestClawInPowerMode(
+				current = new TestElevatorInPowerMode(
 						SmartDashboard.getNumber("elevatorRunTime"),
 						SmartDashboard.getNumber("elevatorRunPower"));
 				Scheduler.getInstance().add(current);
 			}
+			
 			if (Robot.oi.right.getRawButton(9)) {
 				SmartDashboard.putString("Debug", "In button 9 press");
 				current = new TurnByTime(

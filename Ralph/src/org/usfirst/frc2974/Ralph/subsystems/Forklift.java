@@ -9,27 +9,24 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //switch to see bottom
 //2 CAN Talons - 1 for elevator, 1 for claw
 //-possibly- a brake on elevator(PID controlled), need to turn on/off;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**DESIGNERS' NOTE: DO NOT USE A VALUE OF 1 FOR A PARAMETER FOR ANYTHING UNLESS YOU 
 *WANT THE ROBOT TO LAUNCH ITS PARTS AT HIGH SPEEDS AT SOMETHING
 *.....seriously
 */
 
-public class Forklift extends Subsystem
+public final class Forklift extends Subsystem
 {
+	private static int timesIncremented=0;
+	
 	public void initDefaultCommand(){
 		setDefaultCommand(null);
 	}
-	private boolean isHolding;
-	private boolean clawIsFullyOpen;
-	public final int profile1 = 1;
+
 	public final double NEUTRAL_POS = 6;
 	//after elevator is zeroed, raises to this for safe driving
-	public final double TOP_POS = 12;
-	//after elevator is zeroed, raises to top to clear arms of the stack
-	public final double BOTTOM_POS = 0;
-	//after elevator is zeroed, lowers to bottom. can be called from a command
-	// using raiseToPosition(BOTTOM_POS)
+
 	private double zeroPosition = 0;
 	
 	//TODO get input from limit switch
@@ -40,48 +37,43 @@ public class Forklift extends Subsystem
 	private double d = 0;
 	private double f = 0;
 	private double deadband = 0.25;
+	public final int profile1 = 1;
 	
-	//TODO set values for p, i, d 
-	public final double LEVEL_MULTIPLIER = 20;
+	public final double LEVEL_MULTIPLIER = 12;
 	//TODO determine by how much the level # (1, 2, 3) must be multiplied to get postiion to raise the arm
 	//pos is in rotations: LEVEL_MULTIPLIERS = # rotations to raise the tote 1 level
-	public final double HEIGHT_CONSTANT = -12.1635; // Calibrated against 
-	
-	public final double MAX_POSITION_ERROR = 2;//placeholder value
-	
-	public final double MAX_POSITION = 500;//to be calibrated
-	
+	public final double HEIGHT_CONSTANT = 12.1635; // Calibrated against 
+//	public final double HEIGHT_CONSTANT = 1;
+	public final double MAX_POSITION = 55;//to be calibrated
+
 	CANTalon elevatorTalon; 
-	CANTalon clawTalon;
-	// TODO get motor reference 
-	//Encoder liftEncoder = new Encoder(0, 0);
-	//DigitalInput limitSwitch = new DigitalInput(0);
+	boolean isInPositionMode = false;
 	
 	public Forklift()
 	{
-		isHolding = false;
-		clawIsFullyOpen = false;
 		
 		elevatorTalon = RobotMap.elevatorTalon;
-		clawTalon = RobotMap.clawTalon;
 
 		elevatorTalon.ConfigRevLimitSwitchNormallyOpen(true);
 		elevatorTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);//potentiometer gives feedback
-		clawTalon.ConfigRevLimitSwitchNormallyOpen(true);
-		clawTalon.ConfigFwdLimitSwitchNormallyOpen(true);
-		clawTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
+		//elevatorTalon.reverseSensor(true);
 		
-		/*elevatorTalon.setProfile(profile1);
-		elevatorTalon.setCloseLoopRampRate(rampRate);
-		elevatorTalon.setIZone(izone);
-		elevatorTalon.setP(p);
-		elevatorTalon.setI(i);
-		elevatorTalon.setD(d);
-		elevatorTalon.setF(f);*/
-		elevatorTalon.setPID(p, i, d, f, izone, rampRate, profile1);
-		setPowerMode();
+		setPositionMode();
 	}
 	//These are methods used in ForkliftZero command
+	public void increment(final double amount){
+		elevatorTalon.set(elevatorTalon.getSetpoint()+amount);
+		if(amount<0){
+			timesIncremented--;
+			return;
+		}
+		timesIncremented++;
+	}
+	
+	public int timesIncremented(){
+		return timesIncremented;
+	}
+	
 	public void setPowerMode()
 	{
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
@@ -102,6 +94,8 @@ public class Forklift extends Subsystem
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.Position);
 		elevatorTalon.set(elevatorTalon.getPosition());
 		elevatorTalon.enableControl();
+		
+		isInPositionMode = true;
 	}
 	
 	//returns if the forklift is at the bottom and has closed the limit switch
@@ -110,41 +104,23 @@ public class Forklift extends Subsystem
 		return elevatorTalon.isFwdLimitSwitchClosed();
 	}
 	
-	public boolean clawIsOpen()
-	{
-		return clawTalon.isFwdLimitSwitchClosed();
-	}
-	
-	public boolean clawIsClosed()
-	{
-		return clawTalon.isRevLimitSwitchClosed();
-	}
-	
+
 	public void resetPot()
 	{
-		zeroPosition = elevatorTalon.getPosition();		
+		zeroPosition = elevatorTalon.getPosition();	
+		//zeroPosition = -644;
 	}	
 	
 	// <\methods used in ForkliftZero>
 	
 
-	public void checkFullyOpen()
-	{
-//		if(limitSwitchOn){
-//			clawIsFullyOpen = true;
-//		}
-//		else {
-//			clawIsFullyOpen = false;
-//		}
-	}
-	//do we really need this one?-Armaan
-	// we referene it in other methods-- keep for now
-	
-	//raises/lowers by input number of levels(oneToteLevel*level)
 	public void setElevatorPosition(double height)
 	{		
-		double pos = HEIGHT_CONSTANT*height+zeroPosition;
+		//double pos = HEIGHT_CONSTANT*height+zeroPosition;
+		double pos = HEIGHT_CONSTANT*height;
 		elevatorTalon.set(pos);
+		SmartDashboard.putNumber("Position", pos);
+		
 	}
 	
 	//raises/lowers to a variable height(not dependent on levels)
@@ -161,10 +137,13 @@ public class Forklift extends Subsystem
 	
 	public void incrementElevatorPos(double dheight)
 	{
-		double dpos = HEIGHT_CONSTANT*dheight;
-		double pos = elevatorTalon.getSetpoint()+dpos;
-		pos= Math.min(Math.max(pos,zeroPosition), MAX_POSITION);	
-		elevatorTalon.set(pos);
+		SmartDashboard.putNumber("dheight", dheight);
+		double height = currentTarget() + dheight;
+		SmartDashboard.putNumber("height", height);
+		height= Math.max(Math.min(height,zeroPosition), MAX_POSITION);
+		SmartDashboard.putNumber("constrained height", height);
+		setElevatorPosition(height);
+		
 	}
 	
 	public double currentError()
@@ -182,84 +161,5 @@ public class Forklift extends Subsystem
 		return (elevatorTalon.getPosition()-zeroPosition)/HEIGHT_CONSTANT;
 	}
 	
-	/*//raises to max height(set # of levels?)
-	public void raiseToTop()
-	{
-		//elevatorTalon.raiseToPosition(TOP_POS);
-		
-	}
 	
-	//same logic as raiseToTop
-	public void lowerToBottom()
-	{
-		isLowered = true;
-	}
-	*/
-	//we don't really need these methods because we can reference the constant positions from the commands (TOP_POS, BOTTOM_POS)
-	
-	//open/close a variable amount
-	//positive variable = close
-	//negative = open
-	//power- value between -1 and 1(DO NOT USE 1!!!!! PLEASE!!!!)
-	public void setClawMotor(double power)
-	{
-		power=Math.max(Math.min(power, 1), -1);			
-		clawTalon.set(power);	
-	}
-	
-	//open all the way
-//	public void fullyOpen()
-//	{
-//		while(!clawIsFullyOpen){
-//			
-//			clawTalon.set(.1);
-//			checkFullyOpen();
-//			if(clawIsFullyOpen)
-//				break;
-//		}
-//		clawIsFullyOpen = true;
-//	}
-	//no loops in subsystems-need to make this a command
-	//close all the way
-//	public void fullyClose()
-//	{
-//		while(clawIsFullyOpen){
-//			
-//			clawTalon.set(-.1);
-//			checkFullyOpen();
-//			if(!clawIsFullyOpen)
-//				break;
-//		}
-//		clawIsFullyOpen = false;
-//	}
-	//no practical implementation
-	
-//	public void grab()
-//	{
-//		isHolding = true;
-//		//TODO implement the potentiometer/encoder for the claw motor
-//	}
-	//make command
-	
-//	public void drop()
-//	{
-//		setElevatorPower(-.1);
-//		clawTalon.set(-.1);
-//		isHolding = false;
-//	} will be a command or group command
-	
-//	public void resetClaw()
-//	{
-//		fullyOpen();
-//		raiseLowVar(-.1);		
-//	} no practical implementation
-	
-	/* Make stack a command
-	 * public void stack(double level)
-	{
-		grab();
-		raiseLowLevel(level);//lifts			
-		drop();
-	}
-	*/
 }

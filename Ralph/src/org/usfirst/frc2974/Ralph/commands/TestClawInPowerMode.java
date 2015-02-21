@@ -2,7 +2,7 @@ package org.usfirst.frc2974.Ralph.commands;
 
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
-
+import org.usfirst.frc2974.Ralph.subsystems.Grabber;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,15 +11,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TestClawInPowerMode extends Command {
 
-	private Forklift forklift;
+	private Grabber grabber;
 	private double timeToRun;
 	private double power;
 	private boolean finished;
 	
     public TestClawInPowerMode(double timeToRun, double power) {
         
-    	forklift = Robot.forklift;
-        requires(forklift);
+    	grabber = Robot.grabber;
+        requires(grabber);
     	this.timeToRun = timeToRun;
     	this.power = power;
     }
@@ -27,8 +27,8 @@ public class TestClawInPowerMode extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	
-    	forklift.setPowerMode();
-    	forklift.setClawMotor(power);
+    	grabber.setPowerMode();
+    	grabber.setClawPower(power);
     	finished = false;
     }
 
@@ -45,7 +45,7 @@ public class TestClawInPowerMode extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	forklift.setClawMotor(0);
+    	grabber.setClawPower(0);
     }
 
     // Called when another command which requires one or more of the same

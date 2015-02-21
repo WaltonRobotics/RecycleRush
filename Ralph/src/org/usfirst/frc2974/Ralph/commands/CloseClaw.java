@@ -1,29 +1,24 @@
 package org.usfirst.frc2974.Ralph.commands;
 
-import org.usfirst.frc2974.Ralph.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class ShowInputs extends Command {
+public class CloseClaw extends Command {//TODO make this all work
 
-    public ShowInputs() {
+    public CloseClaw() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.inputs);
+        // eg. requires(chassis);
+    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.inputs.updateSmartDashboard();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.inputs.updateSmartDashboard();
     }
 
     // Make this return true when this Command no longer needs to run execute()
