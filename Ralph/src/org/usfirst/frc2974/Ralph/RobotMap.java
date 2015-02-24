@@ -29,7 +29,7 @@ public class RobotMap {
     public static VictorSP driveTrainBackLeft;
     
 	public static CANTalon elevatorTalon; 
-	public static CANTalon clawTalon;
+	public static CANTalon grabberTalon;
 	
     public static DigitalInput digital0;
     public static DigitalInput digital1;

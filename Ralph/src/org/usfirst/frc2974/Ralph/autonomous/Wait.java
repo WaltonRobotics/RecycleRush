@@ -1,16 +1,14 @@
-package org.usfirst.frc2974.Ralph.commands;
+package org.usfirst.frc2974.Ralph.autonomous;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Waits a desired amount of sconds
  */
-public class CloseClaw extends Command {//TODO make this all work
-
-    public CloseClaw() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	
+public class Wait extends Command {
+	private double timeToWait;
+    public Wait(double timeToWait) {
+    	this.timeToWait = timeToWait;
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +21,7 @@ public class CloseClaw extends Command {//TODO make this all work
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return timeSinceInitialized()>timeToWait;
     }
 
     // Called once after isFinished returns true
