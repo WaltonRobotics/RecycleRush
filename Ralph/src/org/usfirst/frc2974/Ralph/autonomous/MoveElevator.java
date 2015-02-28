@@ -10,15 +10,15 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RaiseLowerAuton extends Command {
+public class MoveElevator extends Command {
 
 	public final double TIMEOUT = 2.0; 
 	private Forklift forklift;	
 	private double height;
-	private int positionCount;
+	private int timesAtPosition;
 	private final int MAX_COUNT = 3;
 	
-    public RaiseLowerAuton(double height) 
+    public MoveElevator(double height) 
     {
     	forklift = Robot.forklift;
     	requires(forklift);
@@ -28,8 +28,7 @@ public class RaiseLowerAuton extends Command {
     // Called just before this Command runs the first time
     protected void initialize() 
     {
-    	//finished = false;
-    	positionCount = 0;
+    	timesAtPosition = 0;
     	forklift.setElevatorPosition(height);
     	Preferences prefs = Preferences.getInstance();
     	setTimeout(prefs.getDouble("E_Timeout", 2.0));
@@ -39,20 +38,15 @@ public class RaiseLowerAuton extends Command {
     protected void execute()
     {
     	if(forklift.isAtPosition())
-    	{
-    		positionCount++;
-    		//finished = true;
-    	}
+    		timesAtPosition++;
     	else
-    	{
-    		positionCount = 0;
-    	}
+    		timesAtPosition=0;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
        // return finished;
-    	return positionCount > MAX_COUNT || isTimedOut();
+    	return timesAtPosition > MAX_COUNT || isTimedOut();
     }
 
     // Called once after isFinished returns true

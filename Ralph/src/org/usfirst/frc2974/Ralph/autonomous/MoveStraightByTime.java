@@ -1,4 +1,4 @@
-package org.usfirst.frc2974.Ralph.commands;
+package org.usfirst.frc2974.Ralph.autonomous;
 
 import org.usfirst.frc2974.Ralph.Robot;
 

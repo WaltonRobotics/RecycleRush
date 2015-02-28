@@ -1,39 +1,27 @@
 package org.usfirst.frc2974.Ralph.autonomous;
 
-import org.usfirst.frc2974.Ralph.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Timer; 
 
 /**
- *
+ * Waits a desired amount of sconds
  */
-public class TurnForTime extends Command {
-	private Timer timer;
-	private double timeToTravel;
-	private double leftOrRight;
-    public TurnForTime(double timeToTravel, double leftOrRight) {
-    	requires(Robot.driveTrain);
-    	this.timeToTravel = timeToTravel;
-    	
+public class Wait extends Command {
+	private double timeToWait;
+    public Wait(double timeToWait) {
+    	this.timeToWait = timeToWait;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer = new Timer();
-    	timer.start();
-    	timer.reset();
-    	
-    	Robot.driveTrain.setSpeeds(0,leftOrRight,0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.setSpeeds(0,leftOrRight,0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return timer.get()>timeToTravel;
+        return timeSinceInitialized()>timeToWait;
     }
 
     // Called once after isFinished returns true

@@ -29,22 +29,22 @@ public class Grab extends Command {
 					* Math.signum(joyIn);
 
 			SmartDashboard.putString("Debug", "Opening " + move);
-			grabber.setClawPower(move);
+			grabber.setGrabberPower(move);
 		} else if (Math.abs(Robot.oi.xbox.getRightTrigger()) > .1) {
 			double joyIn = Robot.oi.xbox.getRightTrigger();
 			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0)
 					* Math.signum(joyIn);
 			double current = grabber.readCurrent();
 			if (Math.abs(current) > 1) {
-				move = Math.max(move, .25);
+				move = Math.min(move, .25);
 			}
 
 			SmartDashboard.putString("Debug", "Closing " + move);
-			grabber.setClawPower(-move);
+			grabber.setGrabberPower(-move);
 		}
 		else
 		{
-			grabber.setClawPower(0);
+			grabber.setGrabberPower(0);
 		}
 		SmartDashboard.putNumber("Grabber current", grabber.readCurrent());
     }

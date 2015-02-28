@@ -14,7 +14,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2974.Ralph.Robot;
-import org.usfirst.frc2974.Ralph.autonomous.*;
+
+import org.usfirst.frc2974.Ralph.autonomous.MoveStraightByTime;
+import org.usfirst.frc2974.Ralph.autonomous.MoveElevator;
+import org.usfirst.frc2974.Ralph.autonomous.StrafeByTime;
+import org.usfirst.frc2974.Ralph.autonomous.TurnByTime;
+
 
 /**
  *
@@ -74,7 +79,7 @@ public class AutonomousCommand extends Command {
 			if (Robot.oi.right.getRawButton(7)) {
 				SmartDashboard.putString("Debug", "In button 7 press");
 				Robot.forklift.setPositionMode();
-				current = new RaiseLowerAuton(
+				current = new MoveElevator(
 						SmartDashboard.getNumber("elevatorHeight"));
 				Scheduler.getInstance().add(current);
 			}
