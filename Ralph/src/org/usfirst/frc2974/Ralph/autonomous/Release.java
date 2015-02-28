@@ -25,7 +25,7 @@ public class Release extends Command {
     protected void execute() {
     	
     	
-    	grabber.setClawPower(1);
+    	grabber.setGrabberPower(1);
     	
 		if (Math.abs(grabber.readCurrent()) > 1) 
 			isDone = true;
