@@ -14,9 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2974.Ralph.Robot;
-import org.usfirst.frc2974.Ralph.autonomous.RaiseLowerAuton;
-import org.usfirst.frc2974.Ralph.autonomous.StrafeByTime;
-import org.usfirst.frc2974.Ralph.autonomous.TurnByTime;
+import org.usfirst.frc2974.Ralph.autonomous.*;
 
 /**
  *
@@ -89,9 +87,10 @@ public class AutonomousCommand extends Command {
 //			}
 			if (Robot.oi.right.getRawButton(8)) {
 				Robot.forklift.setPowerMode();
-				current = new TestElevatorInPowerMode(
-						SmartDashboard.getNumber("elevatorRunTime"),
-						SmartDashboard.getNumber("elevatorRunPower"));
+//				current = new TestElevatorInPowerMode(
+//						SmartDashboard.getNumber("elevatorRunTime"),
+//						SmartDashboard.getNumber("elevatorRunPower"));
+				//TODO add this back in CORRECTLY; this part needs refurbishing it seems :)
 				Scheduler.getInstance().add(current);
 			}
 			

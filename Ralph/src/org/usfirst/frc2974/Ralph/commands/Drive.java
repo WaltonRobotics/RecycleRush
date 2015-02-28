@@ -28,6 +28,7 @@ public class Drive extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		SmartDashboard.putBoolean("Cheesy", true);
+		SmartDashboard.putNumber("Turn Factor", .5);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -57,7 +58,7 @@ public class Drive extends Command {
 		SmartDashboard.putNumber("ZRotate", turn);
 		SmartDashboard.putNumber("throttle", throttle);
 		
-    	Robot.driveTrain.setSpeeds(throttle*forward, throttle*turn, throttle*strafe);
+    	Robot.driveTrain.setSpeeds(throttle*forward, SmartDashboard.getNumber("Turn Factor")*throttle*turn, throttle*strafe);
 		Robot.driveTrain.setHalfSpeed(Robot.oi.right.getTrigger()); //Sets half speed when trigger pressed
 	}
 

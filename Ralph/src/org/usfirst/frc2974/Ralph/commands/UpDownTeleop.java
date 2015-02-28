@@ -54,8 +54,10 @@ public class UpDownTeleop extends Command {
     		//forklift.move(-.75,time-lastTime);
     		forklift.changeLevel(false);
     	}
-    	else if (Math.abs(Robot.oi.xbox.getLeftY()) > .1) {
- 			double joyIn = Robot.oi.xbox.getLeftY();
+    	else if (Math.abs(Robot.oi.xbox.getLeftY()) > .1
+    			|| Math.abs(Robot.oi.xbox.getRightY()) > .1) {
+    		double rightJoystickMultiplier = SmartDashboard.getNumber("Right Gamepad Joystick Multiplier",.5);
+ 			double joyIn = Robot.oi.xbox.getLeftY() + rightJoystickMultiplier*Robot.oi.xbox.getRightY();
  			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0) * Math.signum(joyIn);
  			forklift.move(-move, time-lastTime);
     	} 
