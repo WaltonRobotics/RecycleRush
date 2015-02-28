@@ -36,7 +36,7 @@ public class Grab extends Command {
 					* Math.signum(joyIn);
 			double current = grabber.readCurrent();
 			if (Math.abs(current) > 1) {
-				move = Math.max(move, .25);
+				move = Math.min(move, .25);
 			}
 
 			SmartDashboard.putString("Debug", "Closing " + move);

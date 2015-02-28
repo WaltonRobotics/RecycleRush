@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TestClawInPowerMode extends Command {
+public class TestGrabberInPowerMode extends Command {
 
 	private Grabber grabber;
 	private double timeToRun;
 	private double power;
 	private boolean finished;
 	
-    public TestClawInPowerMode(double timeToRun, double power) {
+    public TestGrabberInPowerMode(double timeToRun, double power) {
         
     	grabber = Robot.grabber;
         requires(grabber);
