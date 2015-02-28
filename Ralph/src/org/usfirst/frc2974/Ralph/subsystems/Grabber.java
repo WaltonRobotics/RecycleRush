@@ -14,13 +14,9 @@ public class Grabber extends Subsystem {
     // here. Call these from Commands.
 	
 	CANTalon grabberTalon;
-	private boolean isHolding;
-	private boolean clawIsFullyOpen;
 	
 public Grabber()
 {
-	clawIsFullyOpen = false;
-	isHolding = false;
 	grabberTalon = RobotMap.grabberTalon;
 
 	grabberTalon.ConfigRevLimitSwitchNormallyOpen(true);
@@ -54,7 +50,7 @@ public Grabber()
 	//positive variable = close
 	//negative = open
 	//power- value between -1 and 1(DO NOT USE 1!!!!! PLEASE!!!!)
-	public void setClawPower(double power)
+	public void setGrabberPower(double power)
 	{
 		power=Math.max(Math.min(power, 1), -1);			
 		grabberTalon.set(power);	

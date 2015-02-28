@@ -27,7 +27,7 @@ public class GrabAndHold extends Command {
 		if (Math.abs(grabber.readCurrent()) > 1) 
 			move = .25;
 		
-		grabber.setClawPower(-move);
+		grabber.setGrabberPower(-move);
     }
 
     // Make this return true when this Command no longer needs to run execute()

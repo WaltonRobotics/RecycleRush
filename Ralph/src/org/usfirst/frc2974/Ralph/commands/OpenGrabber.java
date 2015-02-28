@@ -24,7 +24,7 @@ public class OpenGrabber extends Command
     {
     	grabber.setPowerMode();
     	finished = false;
-    	grabber.setClawPower(.1);
+    	grabber.setGrabberPower(.1);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -32,7 +32,7 @@ public class OpenGrabber extends Command
     {
     	if(!grabber.isOpen())
     	{
-    		grabber.setClawPower(0);
+    		grabber.setGrabberPower(0);
     		finished = true;
     	}
     }

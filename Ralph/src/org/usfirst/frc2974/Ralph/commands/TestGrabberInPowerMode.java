@@ -28,7 +28,7 @@ public class TestGrabberInPowerMode extends Command {
     protected void initialize() {
     	
     	grabber.setPowerMode();
-    	grabber.setClawPower(power);
+    	grabber.setGrabberPower(power);
     	finished = false;
     }
 
@@ -45,7 +45,7 @@ public class TestGrabberInPowerMode extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	grabber.setClawPower(0);
+    	grabber.setGrabberPower(0);
     }
 
     // Called when another command which requires one or more of the same
