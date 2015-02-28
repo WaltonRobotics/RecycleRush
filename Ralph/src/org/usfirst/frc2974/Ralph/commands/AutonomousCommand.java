@@ -55,7 +55,7 @@ public class AutonomousCommand extends Command {
 
 		SmartDashboard.putString("Debug", "Initialized OK");
 		SmartDashboard.putNumber("CommandTime", 0.0);
-		Robot.forklift.setPowerMode();
+		Robot.forklift.setMode(false);
 		Robot.forklift.resetPot();
 
 	}
@@ -78,7 +78,7 @@ public class AutonomousCommand extends Command {
 			}
 			if (Robot.oi.right.getRawButton(7)) {
 				SmartDashboard.putString("Debug", "In button 7 press");
-				Robot.forklift.setPositionMode();
+				Robot.forklift.setMode(true);
 				current = new MoveElevator(
 						SmartDashboard.getNumber("elevatorHeight"));
 				Scheduler.getInstance().add(current);
@@ -91,7 +91,7 @@ public class AutonomousCommand extends Command {
 //				Scheduler.getInstance().add(current);
 //			}
 			if (Robot.oi.right.getRawButton(8)) {
-				Robot.forklift.setPowerMode();
+				Robot.forklift.setMode(false);
 //				current = new TestElevatorInPowerMode(
 //						SmartDashboard.getNumber("elevatorRunTime"),
 //						SmartDashboard.getNumber("elevatorRunPower"));
@@ -135,7 +135,7 @@ public class AutonomousCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.forklift.setPowerMode();
+		Robot.forklift.setMode(false);
 	}
 
 	// Called when another command which requires one or more of the

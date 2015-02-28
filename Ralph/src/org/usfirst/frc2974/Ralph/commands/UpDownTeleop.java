@@ -15,6 +15,7 @@ public class UpDownTeleop extends Command {
 
 	private Forklift forklift;
 	private double lastTime;
+	private boolean driverPosMode;
 	
     public UpDownTeleop() {
         // Use requires() here to declare subsystem dependencies
@@ -23,9 +24,10 @@ public class UpDownTeleop extends Command {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
-    	forklift.setPowerMode();
+    protected void initialize() {    	
     	lastTime = 0;
+    	driverPosMode = false;
+    	forklift.setMode(driverPosMode);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,23 +35,25 @@ public class UpDownTeleop extends Command {
     	forklift.updateSmartDashboard();
     	double time = timeSinceInitialized();
     	
-    	if(Robot.oi.xbox.getButton(Gamepad.Button.START) && !forklift.isPositionMode())
+    	if(Robot.oi.xbox.getButton(Gamepad.Button.START) && !driverPosMode)
     	{
     		SmartDashboard.putString("Debug", "going to position mode");
-    		forklift.setPositionMode();
+    		driverPosMode = true;
+    		forklift.setMode(driverPosMode);
     	}
-    	else if(Robot.oi.xbox.getButton(Gamepad.Button.BACK) && forklift.isPositionMode())
+    	else if(Robot.oi.xbox.getButton(Gamepad.Button.BACK) && driverPosMode)
     	{
     		SmartDashboard.putString("Debug", "going to power mode");
-    		forklift.setPowerMode();
+    		driverPosMode = false;
+    		forklift.setMode(driverPosMode);
     	}
     	
-    	if(Robot.oi.xbox.getPOVButton(Gamepad.POV.N))
+    	if(Robot.oi.xbox.getPOVButton(Gamepad.POV.N) && driverPosMode)
     	{
     		//forklift.move(.75, time-lastTime);
     		forklift.changeLevel(true);
     	}
-    	else if(Robot.oi.xbox.getPOVButton(Gamepad.POV.S))
+    	else if(Robot.oi.xbox.getPOVButton(Gamepad.POV.S) && !driverPosMode)
     	{
     		//forklift.move(-.75,time-lastTime);
     		forklift.changeLevel(false);
@@ -59,13 +63,13 @@ public class UpDownTeleop extends Command {
     		double rightJoystickMultiplier = SmartDashboard.getNumber("Right Gamepad Joystick Multiplier",.5);
  			double joyIn = Robot.oi.xbox.getLeftY() + rightJoystickMultiplier*Robot.oi.xbox.getRightY();
  			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0) * Math.signum(joyIn);
- 			forklift.move(-move, time-lastTime);
+ 			forklift.move(-move);
     	} 
     	else if(Robot.oi.xbox.getButton(Gamepad.Button.Y)) {
     		forklift.resetPot();
     	}
     	else
-    		forklift.hold();//not do anything
+    		forklift.hold(driverPosMode);//not do anything
     	
     	lastTime = time;
     	
@@ -78,7 +82,7 @@ public class UpDownTeleop extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	forklift.hold();
+    	forklift.hold(driverPosMode);
     }
 
     // Called when another command which requires one or more of the same
