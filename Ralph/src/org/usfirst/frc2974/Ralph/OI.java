@@ -75,10 +75,8 @@ public class OI {
         
 	    Button a = new JoystickButton(xbox,1);
 	    Button b = new JoystickButton(xbox,2);
-	    Button x = new JoystickButton(xbox,3);
-	    
-	    b.whenPressed(new OpenGrabber());
-	    a.whenPressed(new CloseGrabber());
+	    Button x = new JoystickButton(xbox,3);	    
+
 	    x.whenPressed(new ForkliftZero());
 	    
 	    //Smart Dashboard buttons
