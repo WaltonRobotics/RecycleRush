@@ -11,15 +11,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class MoveStraightByTime extends Command {
 	
+	/**
+	 * The amount of time the robot must travel
+	 */
 	private double timeToTravel;
+	/**
+	 * The speed at which the robot must travel
+	 */
 	private double power;
+	
 	private final double C_ACCEL = 4;
 	private final double C_DECEL = -4;
 	
+    /**
+     * Creates a MoveStraightByTime command that goes for the desired time and with desired speed
+     * @param timeToTravel the amount of time to travel
+     * @param power the speed to travel with    1 for forward   2 to 
+     */
     public MoveStraightByTime(double timeToTravel, double power) {
     	requires(Robot.driveTrain);
     	this.timeToTravel = timeToTravel;
-    	this.power = power;
+    	this.power = -power;
     	}
 
     // Called just before this Command runs the first time

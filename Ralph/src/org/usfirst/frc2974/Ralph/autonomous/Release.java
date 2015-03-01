@@ -11,7 +11,7 @@ public class Release extends Command {
 
 	private Grabber grabber = Robot.grabber;
 	private boolean isDone;
-	
+	private int timesExecuted;
     public Release() {
     	requires(Robot.grabber);
     }
@@ -19,14 +19,16 @@ public class Release extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	isDone = false;
+    	timesExecuted =0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
     	
-    	grabber.setGrabberPower(1);
+    	grabber.setGrabberPower(-1);
     	
+    	timesExecuted +=1;
 		if (Math.abs(grabber.readCurrent()) > 1) 
 			isDone = true;
 		

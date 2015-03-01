@@ -24,12 +24,16 @@ public class AutonCommandGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new GrabAndHold());
-    	addParallel(new MoveElevator(10));
+    	addSequential(new SetUpElevator());
+    	addParallel(new GrabAndHold());
     	addSequential(new Wait(2));
-    	addSequential(new MoveStraightByTime(5,10));
-    	addParallel(new Release());
-    	addSequential(new MoveElevator(0)); 	
+    	addParallel(new MoveElevator(20));
+    	addSequential(new Wait(2));
+    	addSequential(new MoveStraightByTime(2,10));
+    	addSequential(new MoveElevator(6)); 
+    	addParallel(new MoveElevator(0));
+    	addSequential(new Release());
+    		
     	
     }
 }

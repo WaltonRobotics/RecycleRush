@@ -11,6 +11,7 @@
 
 package org.usfirst.frc2974.Ralph;
 
+import org.usfirst.frc2974.Ralph.autonomous.AutonCommandGroup;
 import org.usfirst.frc2974.Ralph.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -83,8 +84,8 @@ public class OI {
 	    
 	    //Smart Dashboard buttons
         
-	    SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
-//        SmartDashboard.putData("TeleopForklift Command", new MoveElevator());
+	    SmartDashboard.putData("Autonomous Command", new AutonCommandGroup());
+
 	    SmartDashboard.putData("UpDownTeleop", new UpDownTeleop());
 	    SmartDashboard.putData(new Grab());
         

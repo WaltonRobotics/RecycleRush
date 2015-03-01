@@ -1,38 +1,35 @@
 package org.usfirst.frc2974.Ralph.autonomous;
 
 import org.usfirst.frc2974.Ralph.Robot;
+import org.usfirst.frc2974.Ralph.subsystems.Forklift;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Timer; 
 
 /**
  *
  */
-public class ForwardForTime extends Command {
-	private Timer timer;
-	private double timeToTravel;
-	private double forwardOrBackward;
-    public ForwardForTime(double timeToTravel, double forwardOrBackward) {
-    	requires(Robot.driveTrain);
-    	this.timeToTravel = timeToTravel;
-    	this.forwardOrBackward = forwardOrBackward;
+public class SetUpElevator extends Command {
+
+	Forklift forklift = Robot.forklift;
+	boolean done;
+    public SetUpElevator() {
+        requires(forklift);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer = new Timer();
-    	timer.reset();
-    	timer.start();
-    	Robot.driveTrain.setSpeeds(0,0,0);
+    	forklift.setPositionMode();
+    	forklift.resetPot();
+    	done = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.setSpeeds(-forwardOrBackward,0,0);
+    	done =true;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return timer.get()>timeToTravel;
+        return done;
     }
 
     // Called once after isFinished returns true

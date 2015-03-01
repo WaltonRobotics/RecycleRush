@@ -8,53 +8,78 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Moves the elevator 
  */
 public class MoveElevator extends Command {
 
-	public final double TIMEOUT = 2.0; 
+	/**
+	 * The forklift subsystem
+	 */
 	private Forklift forklift;	
+	
+	/**
+	 * The height the command is told to go to
+	 */
 	private double height;
-	private int timesAtPosition;
+	
+	/**
+	 * The amount of times it reaches the position
+	 */
+	private int timesAtHeight;
+	
+	/**
+	 * The number of times we want it to reach the position before we say we are there
+	 */
 	private final int MAX_COUNT = 3;
 	
-    public MoveElevator(double height) 
+    
+	/**
+	 * Creates a MoveElevator command that goes to the desired height
+	 * @param height the desired height in inches
+	 */
+	public MoveElevator(double height) 
     {
     	forklift = Robot.forklift;
     	requires(forklift);
     	this.height = height;
     }
 
-    // Called just before this Command runs the first time
+    
+    /**
+     * Initializes the command by setting the timeout and the height
+     */
     protected void initialize() 
     {
-    	timesAtPosition = 0;
+    	timesAtHeight = 0;
     	forklift.setElevatorPosition(height);
     	Preferences prefs = Preferences.getInstance();
     	setTimeout(prefs.getDouble("E_Timeout", 2.0));
     }
 
-    // Called repeatedly when this Command is scheduled to run
+    
+    /** 
+     * Every time the forklift is at the desired position it increments the timesAtPoisition variable
+     */
     protected void execute()
     {
     	if(forklift.isAtPosition())
-    		timesAtPosition++;
+    		timesAtHeight++;
     	else
-    		timesAtPosition=0;
+    		timesAtHeight=0;
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    
+    /** 
+     * Returns whether or not the elevator has reached the desired position the desired number of times
+     */
     protected boolean isFinished() {
-       // return finished;
-    	return timesAtPosition > MAX_COUNT || isTimedOut();
+    	return timesAtHeight > MAX_COUNT || isTimedOut();
     }
 
-    // Called once after isFinished returns true
+    
     protected void end() {
     }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    
     protected void interrupted() {
     }
 }

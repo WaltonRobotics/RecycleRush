@@ -140,8 +140,6 @@ public final class Forklift extends Subsystem
 		zeroPosition = elevatorTalon.getPosition();
 	}	
 	
-	// <\methods used in ForkliftZero>
-	
 
 	public void setElevatorPosition(double height)
 	{
@@ -186,7 +184,6 @@ public final class Forklift extends Subsystem
 			lastSetPower = -holdPower;
 			return;
 		}
-//		elevatorTalon.set(elevatorTalon.getPosition());
 	}
 	
 	public void changeLevel(boolean isUp)
