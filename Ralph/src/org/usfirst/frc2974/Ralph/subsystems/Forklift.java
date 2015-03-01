@@ -58,6 +58,8 @@ public final class Forklift extends Subsystem
 	private boolean isInPositionMode = false;
 	
 	private final double[] LEVELS = {0, 12, 24, 36, 48, 60}; 
+	private final double ACCEL_OVERSHOOT = .15;
+	private final double BUFFER_LENGTH = 4;
 	
 	public Forklift()
 	{
@@ -66,6 +68,16 @@ public final class Forklift extends Subsystem
 
 		elevatorTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);//potentiometer gives feedback
 		elevatorTalon.reverseSensor(true);
+		
+		Preferences prefs = Preferences.getInstance();
+		
+		softLimitFwd = prefs.getInt("E_SoftLimitForward", -400);
+		softLimitRvs = prefs.getInt("E_SoftLimitReverse", -800);
+				
+		elevatorTalon.setForwardSoftLimit(softLimitFwd);
+		elevatorTalon.setReverseSoftLimit(softLimitRvs);
+		elevatorTalon.enableForwardSoftLimit(true);
+		elevatorTalon.enableReverseSoftLimit(true);
 		
 		setPowerMode();
 	}
@@ -83,7 +95,10 @@ public final class Forklift extends Subsystem
 //		return timesIncremented;
 //	}
 	
-	public void setPowerMode()
+	/**
+	 * sets elevator to powermode
+	 */
+	private void setPowerMode()
 	{
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
 
@@ -94,7 +109,10 @@ public final class Forklift extends Subsystem
 		isInPositionMode = false;
 	}
 	
-	public void setPositionMode()
+	/**
+	 * sets elevtor to positionmode
+	 */
+	private void setPositionMode()
 	{
 		Preferences prefs = Preferences.getInstance();
 		p = prefs.getDouble("E_P", 3);
@@ -117,30 +135,62 @@ public final class Forklift extends Subsystem
 		
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.Position);
 		
-		elevatorTalon.set(elevatorTalon.getPosition());
+		double speed = currentSpeed();
+		double overshoot = (speed*speed)*Math.signum(speed)*ACCEL_OVERSHOOT/2;
+		SmartDashboard.putNumber("Debug_Overshoot", overshoot);
+		SmartDashboard.putNumber("Debug_Position", currentPosition());
+		
+		elevatorTalon.set(elevatorTalon.getPosition() + overshoot*HEIGHT_CONSTANT);
 		elevatorTalon.enableControl();
 		
 		isInPositionMode = true;
 	}
 	
-	//returns if the forklift is at the bottom and has closed the limit switch
+	/**
+	 * sets mode for elevator
+	 * @param posMode - true for position mode, false for powermode
+	 */
+	public void setMode(boolean posMode)
+	{
+		if(posMode && !isPositionMode())
+		{
+			setPowerMode();
+		}
+		else if(!posMode && isPositionMode())
+		{
+			setPositionMode();
+		}
+	}
+	/**
+	 * returns if the forklift is at the bottom and has closed the limit switch
+	 * @return true if the elevator has triggered proximity switch
+	 */
 	public boolean isZero()
 	{
-//		return elevatorTalon.isFwdLimitSwitchClosed();
-		return false;//TODO read hall effect sensor /properly/
+		return RobotMap.digital0.get();
 	}
 	
+	/**
+	 * checks if in position mode
+	 * @return
+	 */
 	public boolean isPositionMode()
 	{
 		return isInPositionMode;
 	}
 
+	/**
+	 * resets potentiometer to such that position zero is current position
+	 */
 	public void resetPot()
 	{
 		zeroPosition = elevatorTalon.getPosition();
 	}	
 	
-
+	/**
+	 * moves elevator in position mode
+	 * @param height - target height in inches relative to last zero position
+	 */
 	public void setElevatorPosition(double height)
 	{
 		double pos = HEIGHT_CONSTANT*height+zeroPosition;
@@ -149,6 +199,53 @@ public final class Forklift extends Subsystem
 		
 	}
 	
+	/**
+	 * moves elevator in power mode
+	 * 
+	 * power is cutoff outside of softlimits as defined by preferences
+	 * power is reduced as limits are approached
+	 * 
+	 * @param power - power of motor
+	 */
+	public void setElevatorPower(double power)
+	{
+		double position = elevatorTalon.getPosition();
+		double maxPower;
+		if(power<0)
+		{
+			if(position<softLimitRvs)
+			{
+				SmartDashboard.putString("Debug Buffer", "hitUpperLimit");
+				elevatorTalon.set(0);
+				lastSetPower = 0;
+				return;
+			}
+			maxPower = Math.min(Math.abs(power), 
+					(position - softLimitRvs)/Math.abs(BUFFER_LENGTH*HEIGHT_CONSTANT));
+			SmartDashboard.putString("Debug Buffer", "hitNearUpperLimit" + (position - softLimitRvs));
+			elevatorTalon.set(Math.signum(power)*maxPower);
+			lastSetPower = Math.signum(power)*maxPower;
+			return;
+		}		
+		if(position>softLimitFwd)
+		{
+			SmartDashboard.putString("Debug Buffer", "hitLowerLimit");
+			elevatorTalon.set(0);
+			lastSetPower = 0;
+			return;
+		}
+		maxPower = Math.min(Math.abs(power), 
+				(softLimitFwd - position)/Math.abs(BUFFER_LENGTH*HEIGHT_CONSTANT));
+		SmartDashboard.putString("Debug Buffer", "hitNearLowerLimit" + (position - softLimitFwd));
+		elevatorTalon.set(Math.signum(power)*maxPower);
+		lastSetPower = Math.signum(power)*maxPower;
+	}
+	
+	/**
+	 * checks if elevator is close to current target
+	 * @return true if currentposition is within deadband
+	 */
+	//TODO check if still implemented
 	public boolean isAtPosition()
 	{
 		return Math.abs(elevatorTalon.getClosedLoopError()) < deadband;		
@@ -158,19 +255,14 @@ public final class Forklift extends Subsystem
 	 * @param rate value between -1 and 1 that represents the speed to which the elevator is set
 	 * @param dTime value in seconds
 	 */
-	public void move(double rate, double dTime){
-		if(!isInPositionMode){
-
-			rate= Math.min(Math.max(rate,-1), 1);		
-			elevatorTalon.set(-rate);
-			lastSetPower = -rate;
-			return;
+	public void move(double rate)
+	{		
+		if(isPositionMode())
+		{
+			setPowerMode();
 		}
-		double dheight = rate * speed * dTime;
-		
-		double height = currentTarget() + dheight;
-//		height= Math.max(Math.min(height,zeroPosition), MAX_POSITION);
-		setElevatorPosition(height);
+		rate= Math.min(Math.max(rate,-1), 1);		
+		setElevatorPower(-rate);
 	}
 	
 	double holdPower = .05;
@@ -178,14 +270,25 @@ public final class Forklift extends Subsystem
 	 * Tries to make this forklift stay put (not move up and down)
 	 * @return
 	 */
-	public void hold(){
-		if(!isInPositionMode){
-			elevatorTalon.set(-holdPower);
-			lastSetPower = -holdPower;
+	public void hold(boolean driverPosMode){
+		if(!driverPosMode){
+			if(isPositionMode())
+			{
+				setPowerMode();
+			}
+			setElevatorPower(-holdPower);			
 			return;
+		}
+		if(!isPositionMode())
+		{
+			setPositionMode();
 		}
 	}
 	
+	/**
+	 * moves elevator up or down by an amount of levels
+	 * @param isUp - true=up, false=down
+	 */
 	public void changeLevel(boolean isUp)
 	{
 		double currentPos = currentPosition();
@@ -217,21 +320,45 @@ public final class Forklift extends Subsystem
 		setElevatorPosition(target);
 	}
 	
+	/**
+	 * finds current error as reported by talon controls
+	 * @return current error in inches
+	 */
 	public double currentError()
 	{
 		return elevatorTalon.getClosedLoopError()/HEIGHT_CONSTANT;
 	}
 	
+	/**
+	 * finds current target position of elevator
+	 * @return current target in inches
+	 */
 	public double currentTarget()
 	{
 		return (elevatorTalon.getSetpoint()-zeroPosition)/HEIGHT_CONSTANT;
 	}
 	
+	/**
+	 * finds current position
+	 * @return current position in inches
+	 */
 	public double currentPosition()
 	{
 		return (elevatorTalon.getPosition()-zeroPosition)/HEIGHT_CONSTANT;
 	}
 	
+	/**
+	 * finds current speed
+	 * @return speed in in/sec
+	 */
+	public double currentSpeed()
+	{
+		return elevatorTalon.getSpeed()/HEIGHT_CONSTANT;
+	}
+	
+	/**
+	 * updates smartdashboard
+	 */
 	public void updateSmartDashboard(){
 		SmartDashboard.putString("MODE", isInPositionMode?"PositionMode":"PowerMode");
 		SmartDashboard.putNumber("RawPotValue", elevatorTalon.getPosition());

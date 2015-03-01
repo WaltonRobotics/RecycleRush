@@ -35,6 +35,7 @@ public class GrabAndHold extends Command {
 			move = .25;
 		
 		grabber.setGrabberPower(move);
+
     }
     
     /** 
