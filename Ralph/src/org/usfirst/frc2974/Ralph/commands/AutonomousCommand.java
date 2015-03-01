@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2974.Ralph.Robot;
-
 import org.usfirst.frc2974.Ralph.autonomous.MoveStraightByTime;
 import org.usfirst.frc2974.Ralph.autonomous.MoveElevator;
 import org.usfirst.frc2974.Ralph.autonomous.StrafeByTime;
 import org.usfirst.frc2974.Ralph.autonomous.TurnByTime;
+import org.usfirst.frc2974.Ralph.subsystems.Forklift.Mode;
 
 
 /**
@@ -55,7 +55,7 @@ public class AutonomousCommand extends Command {
 
 		SmartDashboard.putString("Debug", "Initialized OK");
 		SmartDashboard.putNumber("CommandTime", 0.0);
-		Robot.forklift.setMode(false);
+		Robot.forklift.setMode(Mode.power);
 		Robot.forklift.resetPot();
 
 	}
@@ -78,7 +78,7 @@ public class AutonomousCommand extends Command {
 			}
 			if (Robot.oi.right.getRawButton(7)) {
 				SmartDashboard.putString("Debug", "In button 7 press");
-				Robot.forklift.setMode(true);
+				Robot.forklift.setMode(Mode.position);
 				current = new MoveElevator(
 						SmartDashboard.getNumber("elevatorHeight"));
 				Scheduler.getInstance().add(current);
@@ -91,7 +91,7 @@ public class AutonomousCommand extends Command {
 //				Scheduler.getInstance().add(current);
 //			}
 			if (Robot.oi.right.getRawButton(8)) {
-				Robot.forklift.setMode(false);
+				Robot.forklift.setMode(Mode.power);
 //				current = new TestElevatorInPowerMode(
 //						SmartDashboard.getNumber("elevatorRunTime"),
 //						SmartDashboard.getNumber("elevatorRunPower"));
@@ -135,7 +135,7 @@ public class AutonomousCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.forklift.setMode(false);
+		Robot.forklift.setMode(Mode.power);
 	}
 
 	// Called when another command which requires one or more of the

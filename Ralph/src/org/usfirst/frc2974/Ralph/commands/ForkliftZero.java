@@ -2,7 +2,7 @@ package org.usfirst.frc2974.Ralph.commands;
 
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
-
+import org.usfirst.frc2974.Ralph.subsystems.Forklift.Mode;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -30,7 +30,7 @@ public class ForkliftZero extends Command {//TODO this command needs to open cla
     protected void initialize() 
     {
     	finished = false;
-    	forklift.setMode(false);
+    	forklift.setMode(Mode.power);
     	forklift.move(-0.1);
     }
 
@@ -41,7 +41,7 @@ public class ForkliftZero extends Command {//TODO this command needs to open cla
     	{
     		forklift.move(0.0);
     		forklift.resetPot();
-    		forklift.setMode(true);
+    		forklift.setMode(Mode.position);
     		forklift.setElevatorPosition(forklift.NEUTRAL_POS);
     		finished = true;
     	}

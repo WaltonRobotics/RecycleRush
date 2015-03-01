@@ -2,6 +2,7 @@ package org.usfirst.frc2974.Ralph.autonomous;
 
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
+import org.usfirst.frc2974.Ralph.subsystems.Forklift.Mode;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -17,7 +18,7 @@ public class SetUpElevator extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	forklift.setMode(true);
+    	forklift.setMode(Mode.position);
     	forklift.resetPot();
     	done = false;
     }

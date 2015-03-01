@@ -146,21 +146,44 @@ public final class Forklift extends Subsystem
 		isInPositionMode = true;
 	}
 	
+	public enum Mode{
+		power,position;
+		
+		
+	}
+	
+	/**
+	 * sets mode for elevator
+	 * @param mode the mode to be in power or position
+	 */
+	public void setMode(Mode mode)
+	{
+		if(mode == Mode.power && !isPositionMode())
+		{
+			setPowerMode();
+		}
+		else if(mode == Mode.position && isPositionMode())
+		{
+			setPositionMode();
+		}
+	}
+	
 	/**
 	 * sets mode for elevator
 	 * @param posMode - true for position mode, false for powermode
 	 */
 	public void setMode(boolean posMode)
 	{
-		if(posMode && !isPositionMode())
+		if(!posMode && !isPositionMode())
 		{
 			setPowerMode();
 		}
-		else if(!posMode && isPositionMode())
+		else if(posMode && isPositionMode())
 		{
 			setPositionMode();
 		}
 	}
+	
 	/**
 	 * returns if the forklift is at the bottom and has closed the limit switch
 	 * @return true if the elevator has triggered proximity switch
