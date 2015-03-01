@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SetUpElevator extends Command {
+public class InitElevator extends Command {
 
 	Forklift forklift = Robot.forklift;
 	boolean done;
-    public SetUpElevator() {
+    public InitElevator() {
         requires(forklift);
     }
 

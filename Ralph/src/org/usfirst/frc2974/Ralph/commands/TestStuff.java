@@ -14,21 +14,21 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2974.Ralph.Robot;
-import org.usfirst.frc2974.Ralph.autonomous.MoveStraightByTime;
+import org.usfirst.frc2974.Ralph.autonomous.MoveLinear;
 import org.usfirst.frc2974.Ralph.autonomous.MoveElevator;
-import org.usfirst.frc2974.Ralph.autonomous.StrafeByTime;
-import org.usfirst.frc2974.Ralph.autonomous.TurnByTime;
+import org.usfirst.frc2974.Ralph.autonomous.Strafe;
+import org.usfirst.frc2974.Ralph.autonomous.Turn;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift.Mode;
 
 
 /**
  *
  */
-public class AutonomousCommand extends Command {
+public class TestStuff extends Command {
 
 	private Command current = null;
 
-	public AutonomousCommand() {
+	public TestStuff() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 
@@ -70,7 +70,7 @@ public class AutonomousCommand extends Command {
 		if (current == null) {
 			if (Robot.oi.right.getRawButton(6)) {
 				SmartDashboard.putString("Debug", "In button 6 press");
-				current = new MoveStraightByTime(
+				current = new MoveLinear(
 						SmartDashboard.getNumber("Time"),
 						SmartDashboard.getNumber("Max Power")
 						);
@@ -101,7 +101,7 @@ public class AutonomousCommand extends Command {
 			
 			if (Robot.oi.right.getRawButton(9)) {
 				SmartDashboard.putString("Debug", "In button 9 press");
-				current = new TurnByTime(
+				current = new Turn(
 						SmartDashboard.getNumber("Time"),
 						SmartDashboard.getNumber("Turn Direction")
 						);
@@ -110,7 +110,7 @@ public class AutonomousCommand extends Command {
 		
 			if (Robot.oi.right.getRawButton(10)) {
 				SmartDashboard.putString("Debug", "In button 10 press");
-				current = new StrafeByTime(
+				current = new Strafe(
 						SmartDashboard.getNumber("Time"),
 						SmartDashboard.getNumber("Strafe Direction")
 						);
