@@ -174,11 +174,11 @@ public final class Forklift extends Subsystem
 	 */
 	public void setMode(boolean posMode)
 	{
-		if(!posMode && !isPositionMode())
+		if(posMode && !isPositionMode())
 		{
 			setPowerMode();
 		}
-		else if(posMode && isPositionMode())
+		else if(!posMode && isPositionMode())
 		{
 			setPositionMode();
 		}
