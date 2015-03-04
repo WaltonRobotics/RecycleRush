@@ -26,7 +26,7 @@ public Grabber()
 	grabberTalon.enableControl();
 }
     public void initDefaultCommand() {
-    	setDefaultCommand(new Grab());
+    	
     }
     
     public void setPowerMode()

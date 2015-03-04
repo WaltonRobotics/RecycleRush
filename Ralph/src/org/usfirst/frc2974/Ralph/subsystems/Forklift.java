@@ -24,7 +24,7 @@ public final class Forklift extends Subsystem
 	private static int timesIncremented=0;
 	
 	public void initDefaultCommand(){
-		setDefaultCommand(new UpDownTeleop());
+		
 	}
 
 	public final double NEUTRAL_POS = 6;
