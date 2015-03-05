@@ -1,5 +1,6 @@
 package org.usfirst.frc2974.Ralph.commands;
 
+import org.usfirst.frc2974.Ralph.Gamepad;
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Grabber;
 
@@ -19,6 +20,7 @@ public class Grab extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	grabber.setPowerMode();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -29,22 +31,19 @@ public class Grab extends Command {
 					* Math.signum(joyIn);
 
 			SmartDashboard.putString("Debug", "Opening " + move);
-			grabber.setGrabberPower(move);
+			grabber.setGrabberPower(move,Robot.oi.xbox.getButton(Gamepad.Button.L));
 		} else if (Math.abs(Robot.oi.xbox.getRightTrigger()) > .1) {
 			double joyIn = Robot.oi.xbox.getRightTrigger();
 			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0)
 					* Math.signum(joyIn);
-			double current = grabber.readCurrent();
-			if (Math.abs(current) > 1) {
-				move = Math.min(move, .25);
-			}
+			
 
 			SmartDashboard.putString("Debug", "Closing " + move);
-			grabber.setGrabberPower(-move);
+			grabber.setGrabberPower(-move, Robot.oi.xbox.getButton(Gamepad.Button.R));
 		}
 		else
 		{
-			grabber.setGrabberPower(0);
+			grabber.setGrabberPower(0, false);
 		}
 		SmartDashboard.putNumber("Grabber current", grabber.readCurrent());
     }
