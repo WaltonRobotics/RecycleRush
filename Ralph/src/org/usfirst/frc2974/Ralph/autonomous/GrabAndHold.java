@@ -34,7 +34,7 @@ public class GrabAndHold extends Command {
 		if (Math.abs(grabber.readCurrent()) > 1) 
 			move = .25;
 		
-		grabber.setGrabberPower(move);
+		grabber.setGrabberPower(move, false);
 
     }
     
@@ -46,8 +46,10 @@ public class GrabAndHold extends Command {
     }
 
     protected void end() {
+    	grabber.setGrabberPower(0,false);
     }
 
     protected void interrupted() {
+    	end();
     }
 }

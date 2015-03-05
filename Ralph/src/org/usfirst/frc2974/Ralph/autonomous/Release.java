@@ -25,7 +25,7 @@ public class Release extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	grabber.setGrabberPower(-1);
+    	grabber.setGrabberPower(-1,false);
     	
     	timesExecuted +=1;
 		if (Math.abs(grabber.readCurrent()) > 1) 
@@ -41,10 +41,12 @@ public class Release extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	grabber.setGrabberPower(0,false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
