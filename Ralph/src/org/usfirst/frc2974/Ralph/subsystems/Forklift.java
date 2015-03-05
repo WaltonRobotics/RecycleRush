@@ -60,6 +60,9 @@ public final class Forklift extends Subsystem
 	private final double[] LEVELS = {0, 12, 24, 36, 48, 60}; 
 	private final double ACCEL_OVERSHOOT = .15;
 	private final double BUFFER_LENGTH = 4;
+	private final boolean POWER_RESPECTS_LIMITS = true;
+	
+	private Mode mode;
 	
 	public Forklift()
 	{
@@ -101,9 +104,11 @@ public final class Forklift extends Subsystem
 	private void setPowerMode()
 	{
 		elevatorTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
-
-		elevatorTalon.enableForwardSoftLimit(false);
-		elevatorTalon.enableReverseSoftLimit(false);
+		if(!POWER_RESPECTS_LIMITS)
+		{
+			elevatorTalon.enableForwardSoftLimit(false);
+			elevatorTalon.enableReverseSoftLimit(false);
+		}
 		//will there be brake functionality?
 		elevatorTalon.enableControl();
 		isInPositionMode = false;
@@ -147,10 +152,8 @@ public final class Forklift extends Subsystem
 	}
 	
 	public enum Mode{
-		power,position;
-		
-		
-	}
+		power, position, switcheroo;
+		}
 	
 	/**
 	 * sets mode for elevator
@@ -158,31 +161,24 @@ public final class Forklift extends Subsystem
 	 */
 	public void setMode(Mode mode)
 	{
-		if(mode == Mode.power && !isPositionMode())
+		if(mode == Mode.power && !(this.mode == Mode.power))
 		{
 			setPowerMode();
+			this.mode = mode;
 		}
-		else if(mode == Mode.position && isPositionMode())
+		else if(mode == Mode.position && !(this.mode == Mode.position))
 		{
 			setPositionMode();
+			this.mode = mode;
+		}
+		else if(mode == Mode.switcheroo && !(this.mode == Mode.switcheroo))
+		{
+			setPositionMode();
+			this.mode= mode;
 		}
 	}
 	
-	/**
-	 * sets mode for elevator
-	 * @param posMode - true for position mode, false for powermode
-	 */
-	public void setMode(boolean posMode)
-	{
-		if(posMode && !isPositionMode())
-		{
-			setPowerMode();
-		}
-		else if(!posMode && isPositionMode())
-		{
-			setPositionMode();
-		}
-	}
+	
 	
 	/**
 	 * returns if the forklift is at the bottom and has closed the limit switch
@@ -193,14 +189,7 @@ public final class Forklift extends Subsystem
 		return RobotMap.digital0.get();
 	}
 	
-	/**
-	 * checks if in position mode
-	 * @return
-	 */
-	public boolean isPositionMode()
-	{
-		return isInPositionMode;
-	}
+	
 
 	/**
 	 * resets potentiometer to such that position zero is current position
@@ -278,14 +267,31 @@ public final class Forklift extends Subsystem
 	 * @param rate value between -1 and 1 that represents the speed to which the elevator is set
 	 * @param dTime value in seconds
 	 */
-	public void move(double rate)
+	public void move(double rate, double dTime)
 	{		
-		if(isPositionMode())
+		switch(mode)
 		{
-			setPowerMode();
+		case power:			
+		case switcheroo:
+			if(isInPositionMode)
+			{
+				setPowerMode();
+			}
+			rate= Math.min(Math.max(rate,-1), 1);		
+			setElevatorPower(-rate);
+			break;
+		case position:
+			if(!isInPositionMode)
+			{
+				setPositionMode();
+			}
+			double dHeight = rate * speed * dTime;
+			
+			double height = currentTarget() + dHeight;
+			setElevatorPosition(height);
+			break;
 		}
-		rate= Math.min(Math.max(rate,-1), 1);		
-		setElevatorPower(-rate);
+		
 	}
 	
 	double holdPower = .05;
@@ -294,19 +300,23 @@ public final class Forklift extends Subsystem
 	 * @return
 	 */
 	public void hold(boolean driverPosMode){
-		if(!driverPosMode){
-			if(isPositionMode())
+		switch(mode)
+		{
+		case power:
+			if(isInPositionMode)
 			{
 				setPowerMode();
 			}
-			setElevatorPower(-holdPower);			
-			return;
-		}
-		if(!isPositionMode())
-		{
-			setPositionMode();
-			isInPositionMode =true;
-		}
+			setElevatorPower(-holdPower);	
+			break;
+		case switcheroo:
+		case position:
+			if(!isInPositionMode)
+			{
+				setPositionMode();
+			}
+		}		
+
 	}
 	
 	/**
@@ -380,6 +390,10 @@ public final class Forklift extends Subsystem
 		return elevatorTalon.getSpeed()/HEIGHT_CONSTANT;
 	}
 	
+	public Mode currentMode()
+	{
+		return mode;
+	}
 	/**
 	 * updates smartdashboard
 	 */
