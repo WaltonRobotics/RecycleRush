@@ -30,7 +30,6 @@ public class MoveLinear extends Command {
      */
     public MoveLinear(double timeToTravel, double power) {
     	requires(Robot.driveTrain);
-    	this.timeToTravel = SmartDashboard.getNumber("AutonMoveForwardTime");
     	this.power = -power;
     	}
 

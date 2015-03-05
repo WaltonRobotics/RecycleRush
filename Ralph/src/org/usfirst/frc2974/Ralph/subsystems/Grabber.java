@@ -64,8 +64,8 @@ public Grabber()
 	public void setGrabberPower(double power, boolean overrideLimit)
 	{
 		double current = Math.abs(readCurrent());
-		if((power>0 && current < maxSteadyCurrentOpen) 
-				|| (power<0 && current <maxSteadyCurrentClose) 
+		if((power<0 && current < maxSteadyCurrentOpen) 
+				|| (power>0 && current <maxSteadyCurrentClose) 
 				|| overrideLimit)
 		{			
 			power=Math.max(Math.min(power, 1), -1);
