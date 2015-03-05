@@ -26,8 +26,7 @@ public class UpDownTeleop extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {    	
     	lastTime = 0;
-    	driverPosMode = false;
-    	forklift.setMode(driverPosMode);
+    	forklift.setMode(Forklift.Mode.power);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,13 +38,13 @@ public class UpDownTeleop extends Command {
     	{
     		SmartDashboard.putString("Debug", "going to position mode");
     		driverPosMode = true;
-    		forklift.setMode(driverPosMode);
+    		forklift.setMode(Forklift.Mode.position);
     	}
     	else if(Robot.oi.xbox.getButton(Gamepad.Button.BACK) && driverPosMode)
     	{
     		SmartDashboard.putString("Debug", "going to power mode");
     		driverPosMode = false;
-    		forklift.setMode(driverPosMode);
+    		forklift.setMode(Forklift.Mode.power);
     	}
     	
     	if(Robot.oi.xbox.getPOVButton(Gamepad.POV.N) && driverPosMode)
@@ -63,7 +62,7 @@ public class UpDownTeleop extends Command {
     		double rightJoystickMultiplier = SmartDashboard.getNumber("Right Gamepad Joystick Multiplier",.5);
  			double joyIn = Robot.oi.xbox.getLeftY() + rightJoystickMultiplier*Robot.oi.xbox.getRightY();
  			double move = Math.max(1.2 * Math.abs(joyIn) - .2, 0) * Math.signum(joyIn);
- 			forklift.move(-move);
+ 			forklift.move(-move,time-lastTime);
     	} 
     	else if(Robot.oi.xbox.getButton(Gamepad.Button.Y)) {
     		forklift.resetPot();
