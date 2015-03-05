@@ -27,8 +27,8 @@ public class Drive extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		SmartDashboard.putBoolean("Cheesy", true);
-		SmartDashboard.putNumber("Turn Factor", .5);
+		SmartDashboard.putBoolean("Cheesy", false);
+		SmartDashboard.putNumber("Turn Factor", .75);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

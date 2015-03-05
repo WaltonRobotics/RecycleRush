@@ -102,9 +102,9 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        new UpDownTeleop();
-        new Grab();
-        new Drive();
+        Scheduler.getInstance().add(new UpDownTeleop());
+        Scheduler.getInstance().add(new Grab());
+        Scheduler.getInstance().add(new Drive());
     }
 
     /**

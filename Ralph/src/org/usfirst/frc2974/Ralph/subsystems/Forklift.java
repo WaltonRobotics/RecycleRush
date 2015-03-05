@@ -79,7 +79,7 @@ public final class Forklift extends Subsystem
 		elevatorTalon.enableForwardSoftLimit(true);
 		elevatorTalon.enableReverseSoftLimit(true);
 		
-		setPowerMode();
+		setPositionMode();
 	}
 	//These are methods used in ForkliftZero command
 //	public void increment(final double amount){
@@ -305,6 +305,7 @@ public final class Forklift extends Subsystem
 		if(!isPositionMode())
 		{
 			setPositionMode();
+			isInPositionMode =true;
 		}
 	}
 	

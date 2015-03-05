@@ -54,6 +54,7 @@ public class MoveElevator extends Command {
     	forklift.setElevatorPosition(height);
     	Preferences prefs = Preferences.getInstance();
     	setTimeout(prefs.getDouble("E_Timeout", 2.0));
+    	forklift.setMode(Forklift.Mode.position);
     }
 
     
