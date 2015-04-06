@@ -3,7 +3,7 @@ package org.usfirst.frc2974.Ralph.commands;
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift.Mode;
-import edu.wpi.first.wpilibj.CANTalon;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**

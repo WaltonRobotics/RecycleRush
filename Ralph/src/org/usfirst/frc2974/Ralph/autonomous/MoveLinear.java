@@ -2,9 +2,7 @@ package org.usfirst.frc2974.Ralph.autonomous;
 
 import org.usfirst.frc2974.Ralph.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -30,6 +28,7 @@ public class MoveLinear extends Command {
      */
     public MoveLinear(double timeToTravel, double power) {
     	requires(Robot.driveTrain);
+    	this.timeToTravel = timeToTravel;
     	this.power = -power;
     	}
 
@@ -39,7 +38,6 @@ public class MoveLinear extends Command {
      */
     protected void initialize() {
     	Robot.driveTrain.setSpeeds(0,0,0);
-    	this.timeToTravel = SmartDashboard.getNumber("AutonMoveForwardTime");
     }
 
     

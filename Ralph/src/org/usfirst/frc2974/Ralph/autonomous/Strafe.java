@@ -3,7 +3,6 @@ package org.usfirst.frc2974.Ralph.autonomous;
 import org.usfirst.frc2974.Ralph.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -39,7 +38,6 @@ public class Strafe extends Command {
     	double powerAccel = C_ACCEL * time;
     	double powerDecel = C_DECEL * (time - timeToTravel);
     	double powerOut = Math.min(Math.min( powerAccel, powerDecel), powerSteady);
-    	SmartDashboard.putNumber("Motor Power", powerOut);
     	Robot.driveTrain.setSpeeds(0, 0, Math.signum(power)*powerOut);
     }
 

@@ -1,7 +1,6 @@
 package org.usfirst.frc2974.Ralph.subsystems;
 
 import org.usfirst.frc2974.Ralph.RobotMap;
-import org.usfirst.frc2974.Ralph.commands.Grab;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Preferences;
@@ -80,6 +79,7 @@ public Grabber()
 	
 	public double readCurrent()
 	{
+		SmartDashboard.putNumber("GrabberCurrent",grabberTalon.getOutputCurrent() );
 		return grabberTalon.getOutputCurrent();	
 	}
 	

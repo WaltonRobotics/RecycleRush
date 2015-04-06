@@ -2,6 +2,7 @@ package org.usfirst.frc2974.Ralph.autonomous;
 
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Grabber;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -29,10 +30,10 @@ public class GrabAndHold extends Command {
      */
     protected void execute() {
     	
-    	double move = 1;
+    	double move = -1;
     	
-		if (Math.abs(grabber.readCurrent()) > 1) 
-			move = .25;
+//		if (Math.abs(grabber.readCurrent()) > 1) 
+//			move = .25;
 		
 		grabber.setGrabberPower(move, false);
 

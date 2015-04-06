@@ -2,6 +2,7 @@ package org.usfirst.frc2974.Ralph.subsystems;
 
 import org.usfirst.frc2974.Ralph.RobotMap;
 import org.usfirst.frc2974.Ralph.commands.ShowInputs;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
