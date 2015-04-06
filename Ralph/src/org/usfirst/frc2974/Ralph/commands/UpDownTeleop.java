@@ -4,7 +4,6 @@ import org.usfirst.frc2974.Ralph.Gamepad;
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
 
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

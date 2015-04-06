@@ -1,10 +1,8 @@
 package org.usfirst.frc2974.Ralph.subsystems;
-import java.util.Iterator;
-
 import org.usfirst.frc2974.Ralph.RobotMap;
-import org.usfirst.frc2974.Ralph.commands.UpDownTeleop;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 //Forklift subsystem
 //Robot will have:
@@ -14,14 +12,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //-possibly- a brake on elevator(PID controlled), need to turn on/off;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**DESIGNERS' NOTE: DO NOT USE A VALUE OF 1 FOR A PARAMETER FOR ANYTHING UNLESS YOU 
-*WANT THE ROBOT TO LAUNCH ITS PARTS AT HIGH SPEEDS AT SOMETHING
-*.....seriously
-*/
+
 
 public final class Forklift extends Subsystem
 {
-	private static int timesIncremented=0;
+//	private static int timesIncremented=0;
 	
 	public void initDefaultCommand(){
 		
@@ -378,6 +373,7 @@ public final class Forklift extends Subsystem
 	 */
 	public double currentPosition()
 	{
+		SmartDashboard.putNumber("EMERGENCY RAW POT VALUE", elevatorTalon.getPosition());
 		return (elevatorTalon.getPosition()-zeroPosition)/HEIGHT_CONSTANT;
 	}
 	

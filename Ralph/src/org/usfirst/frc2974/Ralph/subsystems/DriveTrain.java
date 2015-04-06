@@ -1,9 +1,8 @@
-// [Insert Javadoc Comment Somewhere]
+// TODO [Insert Javadoc Comment Somewhere]
 package org.usfirst.frc2974.Ralph.subsystems;
 import org.usfirst.frc2974.Ralph.RobotMap;
-import org.usfirst.frc2974.Ralph.commands.*;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 

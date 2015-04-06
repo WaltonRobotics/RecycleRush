@@ -3,7 +3,6 @@ package org.usfirst.frc2974.Ralph.autonomous;
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
 
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
