@@ -1,0 +1,138 @@
+<head><version>2.72.22</version></head>
+<Load_Image>
+  <filename>.\mask4test.jpg</filename>
+  <frame_delay>33</frame_delay>
+  <load_destination>1</load_destination>
+  <load_numbered_images>FALSE</load_numbered_images>
+  <marker_name>mask1</marker_name>
+  <numerical_sort>TRUE</numerical_sort>
+  <page_number>1</page_number>
+  <recursive>TRUE</recursive>
+  <reload_on_change>FALSE</reload_on_change>
+</Load_Image>
+<Axis_Internet_Camera>
+  <auto_back_light>TRUE</auto_back_light>
+  <auto_exposure>FALSE</auto_exposure>
+  <auto_white_balance>TRUE</auto_white_balance>
+  <brightness_value>50</brightness_value>
+  <camera_type>1</camera_type>
+  <color_level_value>50</color_level_value>
+  <compression_index>5</compression_index>
+  <contrast_value>50</contrast_value>
+  <exposure_value>50</exposure_value>
+  <ip_address>axis-camera-2974.local</ip_address>
+  <is_active>TRUE</is_active>
+  <mirrot>FALSE</mirrot>
+  <password>walt2974</password>
+  <port>80</port>
+  <refresh_index>4</refresh_index>
+  <resolution>640x480</resolution>
+  <sharpness_value>50</sharpness_value>
+  <username>root</username>
+</Axis_Internet_Camera>
+<RGB_Filter>
+  <channel>4</channel>
+  <hue_value>50</hue_value>
+  <hysteresis>0</hysteresis>
+  <min_value>100</min_value>
+</RGB_Filter>
+<Mask>
+  <image1>mask1</image1>
+  <image2>Current</image2>
+  <mask>mask1</mask>
+</Mask>
+<Color_Statistics>
+  <basic_statistics>TRUE</basic_statistics>
+  <source_image>Current</source_image>
+</Color_Statistics>
+<Display_Variables>
+  <border_color>red</border_color>
+  <dim_background>TRUE</dim_background>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <display_value_only>FALSE</display_value_only>
+  <font_color>white</font_color>
+  <font_size>Normal (10pt)</font_size>
+  <northwest>SUM_R
+SUM_G
+SUM_B
+</northwest>
+</Display_Variables>
+<If_Statement>
+  <comparison_1>3</comparison_1>
+  <comparison_2>-1</comparison_2>
+  <comparison_3>-1</comparison_3>
+  <comparison_4>-1</comparison_4>
+  <comparison_type_1>3</comparison_type_1>
+  <comparison_type_2>-1</comparison_type_2>
+  <comparison_type_3>-1</comparison_type_3>
+  <comparison_type_4>-1</comparison_type_4>
+  <has_else>FALSE</has_else>
+  <is_latch>FALSE</is_latch>
+  <join_1>-1</join_1>
+  <join_2>-1</join_2>
+  <join_3>-1</join_3>
+  <value_1>1450000</value_1>
+  <variable_1>SUM_B</variable_1>
+</If_Statement>
+<Display_Text>
+  <border_color>red</border_color>
+  <data_source>2</data_source>
+  <dim_background>FALSE</dim_background>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <font_color>white</font_color>
+  <font_size>Normal (10pt)</font_size>
+  <static_text>aligned</static_text>
+  <text_source>1</text_source>
+  <x_coord>0</x_coord>
+  <x_percent>50</x_percent>
+  <y_coord>0</y_coord>
+  <y_percent>50</y_percent>
+</Display_Text>
+<end_if/>
+<If_Statement>
+  <comparison_1>5</comparison_1>
+  <comparison_2>-1</comparison_2>
+  <comparison_3>-1</comparison_3>
+  <comparison_4>-1</comparison_4>
+  <comparison_type_1>3</comparison_type_1>
+  <comparison_type_2>-1</comparison_type_2>
+  <comparison_type_3>-1</comparison_type_3>
+  <comparison_type_4>-1</comparison_type_4>
+  <has_else>FALSE</has_else>
+  <is_latch>FALSE</is_latch>
+  <join_1>-1</join_1>
+  <join_2>-1</join_2>
+  <join_3>-1</join_3>
+  <value_1>1450000</value_1>
+  <variable_1>SUM_B</variable_1>
+</If_Statement>
+<Display_Text>
+  <border_color>red</border_color>
+  <data_source>2</data_source>
+  <dim_background>FALSE</dim_background>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <font_color>white</font_color>
+  <font_size>Normal (10pt)</font_size>
+  <static_text>NOT ALIGNED</static_text>
+  <text_source>1</text_source>
+  <x_coord>73</x_coord>
+  <x_percent>50</x_percent>
+  <y_coord>22</y_coord>
+  <y_percent>50</y_percent>
+</Display_Text>
+<end_if/>
+<NetworkTables>
+  <delay>100</delay>
+  <filter_type_index>0</filter_type_index>
+  <hostname>roborio-2974.local</hostname>
+  <port>1735</port>
+  <prefix>/roborealm/</prefix>
+  <variables_to_send>SUM_B
+SUM_G
+SUM_R</variables_to_send>
+  <variable_type_index>2</variable_type_index>
+</NetworkTables>
+<function>
+<function_name>Tab2</function_name>
+<function_always_run>0</function_always_run>
+</function>
