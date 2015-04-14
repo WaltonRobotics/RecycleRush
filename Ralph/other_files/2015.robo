@@ -1,6 +1,6 @@
 <head><version>2.72.22</version></head>
 <Load_Image>
-  <filename>.\mask4test.jpg</filename>
+  <filename>.\mask2gold_processing.png</filename>
   <frame_delay>33</frame_delay>
   <load_destination>1</load_destination>
   <load_numbered_images>FALSE</load_numbered_images>
@@ -30,21 +30,67 @@
   <sharpness_value>50</sharpness_value>
   <username>root</username>
 </Axis_Internet_Camera>
-<RGB_Filter>
-  <channel>4</channel>
-  <hue_value>50</hue_value>
-  <hysteresis>0</hysteresis>
-  <min_value>100</min_value>
-</RGB_Filter>
 <Mask>
   <image1>mask1</image1>
   <image2>Current</image2>
   <mask>mask1</mask>
 </Mask>
+<RGB_Filter>
+  <channel>2</channel>
+  <hue_value>50</hue_value>
+  <hysteresis>0</hysteresis>
+  <min_value>100</min_value>
+  <result_type>2</result_type>
+</RGB_Filter>
 <Color_Statistics>
   <basic_statistics>TRUE</basic_statistics>
   <source_image>Current</source_image>
 </Color_Statistics>
+<NetworkTables>
+  <delay>100</delay>
+  <filter_type_index>0</filter_type_index>
+  <hostname>roborio-2974.local</hostname>
+  <port>1735</port>
+  <prefix>/roborealm/</prefix>
+  <variables_to_send>SUM_B
+SUM_G
+SUM_R</variables_to_send>
+  <variable_type_index>2</variable_type_index>
+</NetworkTables>
+<Load_Image>
+  <filename>.\mask2gold.png</filename>
+  <frame_delay>33</frame_delay>
+  <load_destination>1</load_destination>
+  <load_numbered_images>FALSE</load_numbered_images>
+  <marker_name>mask2</marker_name>
+  <numerical_sort>TRUE</numerical_sort>
+  <page_number>1</page_number>
+  <recursive>TRUE</recursive>
+  <reload_on_change>FALSE</reload_on_change>
+</Load_Image>
+<Display_Image>
+  <border_color>-1</border_color>
+  <border_size>1</border_size>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <image_name>Source</image_name>
+  <point_1_x>100</point_1_x>
+  <point_1_y>200</point_1_y>
+  <point_2_x>200</point_2_x>
+  <point_2_y>200</point_2_y>
+  <point_3_x>100</point_3_x>
+  <point_3_y>100</point_3_y>
+  <point_4_x>200</point_4_x>
+  <point_4_y>100</point_4_y>
+  <position>5</position>
+  <rotation_degrees>0</rotation_degrees>
+  <x_position>0</x_position>
+  <y_position>0</y_position>
+</Display_Image>
+<Mask>
+  <image1>mask2</image1>
+  <image2>Current</image2>
+  <mask>Current</mask>
+</Mask>
 <Display_Variables>
   <border_color>red</border_color>
   <dim_background>TRUE</dim_background>
@@ -57,81 +103,6 @@ SUM_G
 SUM_B
 </northwest>
 </Display_Variables>
-<If_Statement>
-  <comparison_1>3</comparison_1>
-  <comparison_2>-1</comparison_2>
-  <comparison_3>-1</comparison_3>
-  <comparison_4>-1</comparison_4>
-  <comparison_type_1>3</comparison_type_1>
-  <comparison_type_2>-1</comparison_type_2>
-  <comparison_type_3>-1</comparison_type_3>
-  <comparison_type_4>-1</comparison_type_4>
-  <has_else>FALSE</has_else>
-  <is_latch>FALSE</is_latch>
-  <join_1>-1</join_1>
-  <join_2>-1</join_2>
-  <join_3>-1</join_3>
-  <value_1>1450000</value_1>
-  <variable_1>SUM_B</variable_1>
-</If_Statement>
-<Display_Text>
-  <border_color>red</border_color>
-  <data_source>2</data_source>
-  <dim_background>FALSE</dim_background>
-  <display_as_annotation>FALSE</display_as_annotation>
-  <font_color>white</font_color>
-  <font_size>Normal (10pt)</font_size>
-  <static_text>aligned</static_text>
-  <text_source>1</text_source>
-  <x_coord>0</x_coord>
-  <x_percent>50</x_percent>
-  <y_coord>0</y_coord>
-  <y_percent>50</y_percent>
-</Display_Text>
-<end_if/>
-<If_Statement>
-  <comparison_1>5</comparison_1>
-  <comparison_2>-1</comparison_2>
-  <comparison_3>-1</comparison_3>
-  <comparison_4>-1</comparison_4>
-  <comparison_type_1>3</comparison_type_1>
-  <comparison_type_2>-1</comparison_type_2>
-  <comparison_type_3>-1</comparison_type_3>
-  <comparison_type_4>-1</comparison_type_4>
-  <has_else>FALSE</has_else>
-  <is_latch>FALSE</is_latch>
-  <join_1>-1</join_1>
-  <join_2>-1</join_2>
-  <join_3>-1</join_3>
-  <value_1>1450000</value_1>
-  <variable_1>SUM_B</variable_1>
-</If_Statement>
-<Display_Text>
-  <border_color>red</border_color>
-  <data_source>2</data_source>
-  <dim_background>FALSE</dim_background>
-  <display_as_annotation>FALSE</display_as_annotation>
-  <font_color>white</font_color>
-  <font_size>Normal (10pt)</font_size>
-  <static_text>NOT ALIGNED</static_text>
-  <text_source>1</text_source>
-  <x_coord>73</x_coord>
-  <x_percent>50</x_percent>
-  <y_coord>22</y_coord>
-  <y_percent>50</y_percent>
-</Display_Text>
-<end_if/>
-<NetworkTables>
-  <delay>100</delay>
-  <filter_type_index>0</filter_type_index>
-  <hostname>roborio-2974.local</hostname>
-  <port>1735</port>
-  <prefix>/roborealm/</prefix>
-  <variables_to_send>SUM_B
-SUM_G
-SUM_R</variables_to_send>
-  <variable_type_index>2</variable_type_index>
-</NetworkTables>
 <function>
 <function_name>Tab2</function_name>
 <function_always_run>0</function_always_run>
