@@ -1,0 +1,109 @@
+<head><version>2.72.22</version></head>
+<Load_Image>
+  <filename>.\mask2gold_processing.png</filename>
+  <frame_delay>33</frame_delay>
+  <load_destination>1</load_destination>
+  <load_numbered_images>FALSE</load_numbered_images>
+  <marker_name>mask1</marker_name>
+  <numerical_sort>TRUE</numerical_sort>
+  <page_number>1</page_number>
+  <recursive>TRUE</recursive>
+  <reload_on_change>FALSE</reload_on_change>
+</Load_Image>
+<Axis_Internet_Camera>
+  <auto_back_light>TRUE</auto_back_light>
+  <auto_exposure>FALSE</auto_exposure>
+  <auto_white_balance>TRUE</auto_white_balance>
+  <brightness_value>50</brightness_value>
+  <camera_type>1</camera_type>
+  <color_level_value>50</color_level_value>
+  <compression_index>5</compression_index>
+  <contrast_value>50</contrast_value>
+  <exposure_value>50</exposure_value>
+  <ip_address>axis-camera-2974.local</ip_address>
+  <is_active>TRUE</is_active>
+  <mirrot>FALSE</mirrot>
+  <password>walt2974</password>
+  <port>80</port>
+  <refresh_index>4</refresh_index>
+  <resolution>640x480</resolution>
+  <sharpness_value>50</sharpness_value>
+  <username>root</username>
+</Axis_Internet_Camera>
+<Mask>
+  <image1>mask1</image1>
+  <image2>Current</image2>
+  <mask>mask1</mask>
+</Mask>
+<RGB_Filter>
+  <channel>2</channel>
+  <hue_value>50</hue_value>
+  <hysteresis>0</hysteresis>
+  <min_value>100</min_value>
+  <result_type>2</result_type>
+</RGB_Filter>
+<Color_Statistics>
+  <basic_statistics>TRUE</basic_statistics>
+  <source_image>Current</source_image>
+</Color_Statistics>
+<NetworkTables>
+  <delay>100</delay>
+  <filter_type_index>0</filter_type_index>
+  <hostname>roborio-2974.local</hostname>
+  <port>1735</port>
+  <prefix>/roborealm/</prefix>
+  <variables_to_send>SUM_B
+SUM_G
+SUM_R</variables_to_send>
+  <variable_type_index>2</variable_type_index>
+</NetworkTables>
+<Load_Image>
+  <filename>.\mask2gold.png</filename>
+  <frame_delay>33</frame_delay>
+  <load_destination>1</load_destination>
+  <load_numbered_images>FALSE</load_numbered_images>
+  <marker_name>mask2</marker_name>
+  <numerical_sort>TRUE</numerical_sort>
+  <page_number>1</page_number>
+  <recursive>TRUE</recursive>
+  <reload_on_change>FALSE</reload_on_change>
+</Load_Image>
+<Display_Image>
+  <border_color>-1</border_color>
+  <border_size>1</border_size>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <image_name>Source</image_name>
+  <point_1_x>100</point_1_x>
+  <point_1_y>200</point_1_y>
+  <point_2_x>200</point_2_x>
+  <point_2_y>200</point_2_y>
+  <point_3_x>100</point_3_x>
+  <point_3_y>100</point_3_y>
+  <point_4_x>200</point_4_x>
+  <point_4_y>100</point_4_y>
+  <position>5</position>
+  <rotation_degrees>0</rotation_degrees>
+  <x_position>0</x_position>
+  <y_position>0</y_position>
+</Display_Image>
+<Mask>
+  <image1>mask2</image1>
+  <image2>Current</image2>
+  <mask>Current</mask>
+</Mask>
+<Display_Variables>
+  <border_color>red</border_color>
+  <dim_background>TRUE</dim_background>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <display_value_only>FALSE</display_value_only>
+  <font_color>white</font_color>
+  <font_size>Normal (10pt)</font_size>
+  <northwest>SUM_R
+SUM_G
+SUM_B
+</northwest>
+</Display_Variables>
+<function>
+<function_name>Tab2</function_name>
+<function_always_run>0</function_always_run>
+</function>

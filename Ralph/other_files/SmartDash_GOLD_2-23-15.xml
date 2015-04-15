@@ -1,0 +1,158 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Digital In 2" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="289" y="655"/>
+	</widget>
+	<widget field="Digital In 0" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="153" y="655"/>
+	</widget>
+	<widget field="Digital In 4" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="153" y="243"/>
+	</widget>
+	<widget field="Analog In 1" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+		<location x="153" y="222"/>
+	</widget>
+	<widget field="Digital In 8" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="153" y="201"/>
+	</widget>
+	<widget field="Digital In 6" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="153" y="180"/>
+	</widget>
+	<widget field="Analog In 3" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+		<location x="153" y="159"/>
+	</widget>
+	<widget field="Digital In 3" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="0" y="573"/>
+	</widget>
+	<widget field="Digital In 1" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="0" y="552"/>
+	</widget>
+	<widget field="Analog In 0" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+		<location x="0" y="531"/>
+	</widget>
+	<widget field="Digital In 5" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="0" y="444"/>
+	</widget>
+	<widget field="Analog In 2" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+		<location x="0" y="423"/>
+	</widget>
+	<widget field="Digital In 9" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="0" y="381"/>
+	</widget>
+	<widget field="Digital In 7" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+		<location x="0" y="331"/>
+	</widget>
+	<widget field="SUM_R" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="594"/>
+	</widget>
+	<widget field="SUM_B" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="510"/>
+	</widget>
+	<widget field="SUM_G" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="226"/>
+	</widget>
+	<widget field="Debug_Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1043" y="222"/>
+	</widget>
+	<widget field="Debug_Overshoot" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1043" y="201"/>
+	</widget>
+	<widget field="blue threshold" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1128" y="519"/>
+	</widget>
+	<widget field="GrabberCurrent" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="289" y="634"/>
+	</widget>
+	<widget field="PICK AN AUTONOMOUS plz :)" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="153" y="0"/>
+	</widget>
+	<widget field="AutonMoveForwardTime" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="163" y="613"/>
+	</widget>
+	<widget field="is aligned" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1126" y="541"/>
+	</widget>
+	<widget field="Debug Buffer" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="655"/>
+	</widget>
+	<widget field="EMERGENCY RAW POT VALUE" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="634"/>
+	</widget>
+	<widget field="green threshold" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1129" y="482"/>
+	</widget>
+	<widget field="red threshold" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1130" y="498"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.WebcamViewerExtension">
+		<location x="276" y="7"/>
+		<width>766</width>
+		<height>596</height>
+	</static-widget>
+	<widget field="Turn Factor" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="154"/>
+	</widget>
+	<widget field="Debug" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="76"/>
+	</widget>
+	<widget field="ZeroPosition" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="489"/>
+	</widget>
+	<widget field="CurrentError" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="468"/>
+	</widget>
+	<widget field="CurrentTarget" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="402"/>
+	</widget>
+	<widget field="Last setPower()" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="360"/>
+	</widget>
+	<widget field="RawPotValue" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="310"/>
+	</widget>
+	<widget field="Scheduler" type="Scheduler" class="edu.wpi.first.smartdashboard.gui.elements.Scheduler">
+		<location x="0" y="139"/>
+	</widget>
+	<widget field="UpDownTeleop" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="276"/>
+	</widget>
+	<widget field="Grab" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="192"/>
+	</widget>
+	<widget field="Grabber current" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.SimpleDial">
+		<location x="1077" y="248"/>
+		<property name="Upper Limit" value="5.0"/>
+		<property name="Tick Interval" value="0.1"/>
+	</widget>
+	<widget field="throttle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="118"/>
+	</widget>
+	<widget field="ZRotate" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="97"/>
+	</widget>
+	<widget field="Drive sideways" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="21"/>
+	</widget>
+	<widget field="Drive forward" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="0"/>
+	</widget>
+	<widget field="Cheesy" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="255"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="1057" y="0"/>
+	</static-widget>
+	<widget field="Autonomous Command" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="42"/>
+	</widget>
+	<widget field="CurrentPosition" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="132" y="312"/>
+	</widget>
+	<widget field="MODE" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="156" y="284"/>
+		<width>115</width>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>
