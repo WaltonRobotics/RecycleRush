@@ -117,6 +117,7 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().add(new UpDownTeleop());
         Scheduler.getInstance().add(new Grab());
         Scheduler.getInstance().add(new Drive());
+        Scheduler.getInstance().add(new Camera());
     }
 
     /**
