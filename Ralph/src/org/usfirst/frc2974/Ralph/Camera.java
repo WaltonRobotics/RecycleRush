@@ -4,6 +4,7 @@
 
 package org.usfirst.frc2974.Ralph;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.Relay.Value;
@@ -19,22 +20,28 @@ public class Camera extends Command{
 	NetworkTable networkTable;
 	Relay light = RobotMap.alignmentIndicatorLightSpike;
 
+	private double threshold=170000;
+	
 	/**
 	 * 
 	 */
 	public Camera() {
 
 		networkTable = NetworkTable.getTable("roborealm");
-
+		
+		
 		SmartDashboard.putBoolean("is aligned", false);
 
-		SmartDashboard.putNumber("green threshold", 0);
-		SmartDashboard.putNumber("blue threshold", 0);
-		SmartDashboard.putNumber("red threshold", 0);
+//		SmartDashboard.putNumber("green threshold", 0);
+//		SmartDashboard.putNumber("blue threshold", 0);
+//		SmartDashboard.putNumber("red threshold", 0);
 	}
 	
 	protected void initialize() {
+		Preferences prefs = Preferences.getInstance();		
+		threshold = prefs.getDouble("CAM_Threshold", threshold);
 	}
+	
 	protected void execute() {
 		if(Robot.oi.xbox.getButton(Gamepad.Button.A)) {
 			light.set(Value.kOn);
@@ -43,9 +50,11 @@ public class Camera extends Command{
 		}
 		System.out.println("LIGHT IS SET TO "+light.get().name());
 	}
+	
 	protected void end() {
 		light.free();
 	}
+	
 	protected void interrupted() {
 //		end();
 	}
@@ -62,11 +71,11 @@ public class Camera extends Command{
 
 //		System.out.println(r + ", " + g + ", " + b);
 
-		double redThreshold = SmartDashboard.getNumber("red threshold");
-		double greenThreshold = SmartDashboard.getNumber("green threshold");
-		double blueThreshold = SmartDashboard.getNumber("blue threshold");
+//		double redThreshold = SmartDashboard.getNumber("red threshold");
+//		double greenThreshold = SmartDashboard.getNumber("green threshold");
+//		double blueThreshold = SmartDashboard.getNumber("blue threshold");
 
-		if (b >= blueThreshold && g <= greenThreshold && r <= redThreshold)
+		if ((b + g + r)/3.0 >= threshold)
 			SmartDashboard.putBoolean("is aligned", true);
 		else
 			SmartDashboard.putBoolean("is aligned", false);
