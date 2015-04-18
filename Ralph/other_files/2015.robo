@@ -1,6 +1,6 @@
 <head><version>2.72.22</version></head>
 <Load_Image>
-  <filename>.\mask2gold_processing.png</filename>
+  <filename>.\mask3gold_processing.jpg</filename>
   <frame_delay>33</frame_delay>
   <load_destination>1</load_destination>
   <load_numbered_images>FALSE</load_numbered_images>
@@ -58,7 +58,7 @@ SUM_R</variables_to_send>
   <variable_type_index>2</variable_type_index>
 </NetworkTables>
 <Load_Image>
-  <filename>.\mask2gold.png</filename>
+  <filename>.\mask3gold.jpg</filename>
   <frame_delay>33</frame_delay>
   <load_destination>1</load_destination>
   <load_numbered_images>FALSE</load_numbered_images>
