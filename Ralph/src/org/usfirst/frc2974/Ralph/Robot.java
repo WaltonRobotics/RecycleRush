@@ -19,6 +19,12 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc2974.Ralph.autonCommandGroups.DoNothing;
+import org.usfirst.frc2974.Ralph.autonCommandGroups.Forward_NoStep;
+import org.usfirst.frc2974.Ralph.autonCommandGroups.Forward_Step;
+import org.usfirst.frc2974.Ralph.autonCommandGroups.OneTote_Dynamic;
+import org.usfirst.frc2974.Ralph.autonCommandGroups.OneTote_NoStep;
+import org.usfirst.frc2974.Ralph.autonCommandGroups.OneTote_Step;
 import org.usfirst.frc2974.Ralph.autonCommandGroups.*;
 import org.usfirst.frc2974.Ralph.commands.*;
 import org.usfirst.frc2974.Ralph.subsystems.*;
@@ -82,8 +88,9 @@ public class Robot extends IterativeRobot {
     	autoChooser.addObject("Step - one tote",new OneTote_Step());
     	autoChooser.addObject("No step - forward", new Forward_NoStep());
     	autoChooser.addObject("Step - forward", new Forward_Step());
-    	autoChooser.addObject("Dynamic", new Forward_Dynamic());
-    	SmartDashboard.putData("PICK AN AUTONOMOUS plz :)",autoChooser);
+    	autoChooser.addObject("Dynamic - one tote", new OneTote_Dynamic());
+    	autoChooser.addObject("Dynamic - forward", new Forward_Dynamic());
+    	SmartDashboard.putData("PICK AN AUTONOMOUS",autoChooser);
     }
 
     /**
