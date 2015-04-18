@@ -1,4 +1,4 @@
-package org.usfirst.frc2974.Ralph.autonomous;
+package org.usfirst.frc2974.Ralph.autonomousDynamic;
 
 import org.usfirst.frc2974.Ralph.Robot;
 
@@ -27,9 +27,10 @@ public class MoveLinear_Dynamic extends Command {
      * @param timeToTravel the amount of time to travel
      * @param power the speed to travel with    pos for forward   neg for backward 
      */
-    public MoveLinear_Dynamic(double timeToTravel, double power) {
+    public MoveLinear_Dynamic(double defaultTimeToTravel, double defaultPower) {
     	requires(Robot.driveTrain);
-    	this.power = -power;
+    	timeToTravel = defaultTimeToTravel;
+    	power = -defaultPower;
     	}
 
     
@@ -38,7 +39,8 @@ public class MoveLinear_Dynamic extends Command {
      */
     protected void initialize() {
     	Robot.driveTrain.setSpeeds(0,0,0);
-    	this.timeToTravel = SmartDashboard.getNumber("AutonMoveForwardTime");
+    	timeToTravel = SmartDashboard.getNumber("AutonMoveForwardTime",timeToTravel);
+    	power = -SmartDashboard.getNumber("AutonMoveForwardSpeed",power);
     }
 
     
