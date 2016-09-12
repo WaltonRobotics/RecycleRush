@@ -69,13 +69,13 @@ public final class Forklift extends Subsystem
 		
 		Preferences prefs = Preferences.getInstance();
 		
-		softLimitFwd = prefs.getInt("E_SoftLimitForward", -400);
-		softLimitRvs = prefs.getInt("E_SoftLimitReverse", -800);
+		softLimitFwd = prefs.getInt("E_SoftLimitForward", -35);
+		softLimitRvs = prefs.getInt("E_SoftLimitReverse", -750);
 				
 		elevatorTalon.setForwardSoftLimit(softLimitFwd);
 		elevatorTalon.setReverseSoftLimit(softLimitRvs);
-		elevatorTalon.enableForwardSoftLimit(true);
-		elevatorTalon.enableReverseSoftLimit(true);
+		//elevatorTalon.enableForwardSoftLimit(true);
+		//elevatorTalon.enableReverseSoftLimit(true);
 		
 		setPositionMode();
 	}
@@ -98,7 +98,7 @@ public final class Forklift extends Subsystem
 	 */
 	private void setPowerMode()
 	{
-		elevatorTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
+		elevatorTalon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		if(!POWER_RESPECTS_LIMITS)
 		{
 			elevatorTalon.enableForwardSoftLimit(false);
@@ -123,8 +123,8 @@ public final class Forklift extends Subsystem
 		rampRate = Math.abs(prefs.getDouble("E_RampRate", 10));
 		elevatorTalon.setPID(p, i, d, f, izone, rampRate, profile1);
 		
-		softLimitFwd = prefs.getInt("E_SoftLimitForward", -400);
-		softLimitRvs = prefs.getInt("E_SoftLimitReverse", -800);
+		softLimitFwd = prefs.getInt("E_SoftLimitForward", -35);
+		softLimitRvs = prefs.getInt("E_SoftLimitReverse", -750);
 		
 		speed = prefs.getDouble("E_Speed", 1);
 		
@@ -133,7 +133,7 @@ public final class Forklift extends Subsystem
 		elevatorTalon.enableForwardSoftLimit(true);
 		elevatorTalon.enableReverseSoftLimit(true);
 		
-		elevatorTalon.changeControlMode(CANTalon.ControlMode.Position);
+		elevatorTalon.changeControlMode(CANTalon.TalonControlMode.Position);
 		
 		double speed = currentSpeed();
 		double overshoot = (speed*speed)*Math.signum(speed)*ACCEL_OVERSHOOT/2;

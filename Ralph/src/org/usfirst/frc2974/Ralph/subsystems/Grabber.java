@@ -28,7 +28,7 @@ public Grabber()
 	grabberTalon.ConfigRevLimitSwitchNormallyOpen(true);
 	grabberTalon.ConfigFwdLimitSwitchNormallyOpen(true);
 	grabberTalon.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
-	grabberTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
+	grabberTalon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	grabberTalon.enableControl();
 }
     public void initDefaultCommand() {
@@ -41,7 +41,7 @@ public Grabber()
     	maxSteadyCurrentClose = prefs.getDouble("G_MaxSteadyCurrentClose", maxSteadyCurrentClose);
     	maxSteadyCurrentOpen = prefs.getDouble("G_MaxSteadyCurrentOpen", maxSteadyCurrentOpen);
     	steadyPower = prefs.getDouble("G_SteadyPower", steadyPower);
-		grabberTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
+		grabberTalon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		//will there be brake functionality?
 		grabberTalon.enableControl();
 	}

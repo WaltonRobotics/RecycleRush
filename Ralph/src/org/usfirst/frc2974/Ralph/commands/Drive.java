@@ -28,6 +28,8 @@ public class Drive extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		SmartDashboard.putBoolean("Cheesy", false);
+		SmartDashboard.putBoolean("Kiddie Mode", true);
+		SmartDashboard.putNumber("power", .5);
 		SmartDashboard.putNumber("Turn Factor", .75);
 	}
 
@@ -46,7 +48,7 @@ public class Drive extends Command {
     	}
     		
     	else{
-    		throttle = .5; //Above 2 will limit top speed, Default is 2
+    		throttle = 2; //Above 2 will limit top speed, Default is 2
     		forward = (Robot.oi.left.getY() + Robot.oi.right.getY()) ;
             turn = (Robot.oi.left.getY() - Robot.oi.right.getY()) ;
             strafe = -(Robot.oi.left.getX() + Robot.oi.right.getX()) ;
@@ -57,6 +59,9 @@ public class Drive extends Command {
 		SmartDashboard.putNumber("Drive sideways", strafe);
 		SmartDashboard.putNumber("ZRotate", turn);
 		SmartDashboard.putNumber("throttle", throttle);
+		
+		if(SmartDashboard.getBoolean("Kiddie Mode"))
+			throttle /= SmartDashboard.getNumber("power") ;
 		
     	Robot.driveTrain.setSpeeds(throttle*forward, SmartDashboard.getNumber("Turn Factor")*throttle*turn, throttle*strafe);
 		Robot.driveTrain.setHalfSpeed(Robot.oi.right.getTrigger()); //Sets half speed when trigger pressed
