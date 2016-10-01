@@ -61,7 +61,7 @@ public class Drive extends Command {
 		SmartDashboard.putNumber("throttle", throttle);
 		
 		if(SmartDashboard.getBoolean("Kiddie Mode"))
-			throttle /= SmartDashboard.getNumber("power") ;
+			throttle *= SmartDashboard.getNumber("power") ;
 		
     	Robot.driveTrain.setSpeeds(throttle*forward, SmartDashboard.getNumber("Turn Factor")*throttle*turn, throttle*strafe);
 		Robot.driveTrain.setHalfSpeed(Robot.oi.right.getTrigger()); //Sets half speed when trigger pressed
