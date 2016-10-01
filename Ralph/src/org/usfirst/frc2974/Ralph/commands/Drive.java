@@ -29,7 +29,7 @@ public class Drive extends Command {
 	protected void initialize() {
 		SmartDashboard.putBoolean("Cheesy", false);
 		SmartDashboard.putBoolean("Kiddie Mode", true);
-		SmartDashboard.putNumber("power", .5);
+		SmartDashboard.putNumber("power", .2);
 		SmartDashboard.putNumber("Turn Factor", .75);
 	}
 
