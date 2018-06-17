@@ -7,33 +7,35 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Waits a desired amount of sconds
  */
 public class Wait_Dynamic extends Command {
+
 	private double timeToWait;
 	private String key;
-    public Wait_Dynamic(double defaultTimeToWait,String key) {
-    	this.timeToWait = defaultTimeToWait;
-    	this.key=key;
-    }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	timeToWait = SmartDashboard.getNumber(key,timeToWait);
-    }
+	public Wait_Dynamic(double defaultTimeToWait, String key) {
+		this.timeToWait = defaultTimeToWait;
+		this.key = key;
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		timeToWait = SmartDashboard.getNumber(key, timeToWait);
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return timeSinceInitialized()>timeToWait;
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return timeSinceInitialized() > timeToWait;
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Called once after isFinished returns true
+	protected void end() {
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }

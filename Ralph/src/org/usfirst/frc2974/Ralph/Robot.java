@@ -16,27 +16,28 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc2974.Ralph.autonCommandGroups.DoNothing;
+import org.usfirst.frc2974.Ralph.autonCommandGroups.Forward_Dynamic;
 import org.usfirst.frc2974.Ralph.autonCommandGroups.Forward_NoStep;
 import org.usfirst.frc2974.Ralph.autonCommandGroups.Forward_Step;
 import org.usfirst.frc2974.Ralph.autonCommandGroups.OneTote_Dynamic;
 import org.usfirst.frc2974.Ralph.autonCommandGroups.OneTote_NoStep;
 import org.usfirst.frc2974.Ralph.autonCommandGroups.OneTote_Step;
-import org.usfirst.frc2974.Ralph.autonCommandGroups.*;
-import org.usfirst.frc2974.Ralph.commands.*;
-import org.usfirst.frc2974.Ralph.subsystems.*;
+import org.usfirst.frc2974.Ralph.commands.Drive;
+import org.usfirst.frc2974.Ralph.commands.Grab;
+import org.usfirst.frc2974.Ralph.commands.Stop;
+import org.usfirst.frc2974.Ralph.commands.UpDownTeleop;
+import org.usfirst.frc2974.Ralph.subsystems.DriveTrain;
+import org.usfirst.frc2974.Ralph.subsystems.Forklift;
+import org.usfirst.frc2974.Ralph.subsystems.Grabber;
+import org.usfirst.frc2974.Ralph.subsystems.Inputs;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
+ * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
+ * described in the IterativeRobot documentation. If you change the name of this class or the package after creating
+ * this project, you must also update the manifest file in the resource directory.
  */
 public class Robot extends IterativeRobot {
-
-	Command autonomousCommand;
 
 	public static Camera cam;
 	public static OI oi;
@@ -44,18 +45,18 @@ public class Robot extends IterativeRobot {
 	public static Forklift forklift;
 	public static Inputs inputs;
 	public static Grabber grabber;
+	Command autonomousCommand;
 	private SendableChooser autoChooser;
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * This function is run when the robot is first started up and should be used for any initialization code.
 	 */
 	public void robotInit() {
 
 		SmartDashboard.putNumber("AutonMoveForwardTime", 6); // used in dynamic
-																// movelinear//
-																// TODO remove
-																// eventually
+		// movelinear//
+		// TODO remove
+		// eventually
 		RobotMap.init();
 
 		driveTrain = new DriveTrain();
@@ -84,8 +85,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This function is called when the disabled button is hit. You can use it
-	 * to reset subsystems before shutting down.
+	 * This function is called when the disabled button is hit. You can use it to reset subsystems before shutting
+	 * down.
 	 */
 	public void disabledInit() {
 
@@ -110,8 +111,9 @@ public class Robot extends IterativeRobot {
 
 	public void teleopInit() {
 
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
+		}
 		Scheduler.getInstance().add(new UpDownTeleop());
 		Scheduler.getInstance().add(new Grab());
 		Scheduler.getInstance().add(new Drive());

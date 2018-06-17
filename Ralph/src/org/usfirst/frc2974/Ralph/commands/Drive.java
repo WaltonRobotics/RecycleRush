@@ -12,7 +12,6 @@ package org.usfirst.frc2974.Ralph.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc2974.Ralph.Robot;
 
 /**
@@ -39,31 +38,31 @@ public class Drive extends Command {
 		double forward;
 		double strafe;
 		double turn;
-    	if(SmartDashboard.getBoolean("Cheesy")){
-    		//double leftY = (-Robot.oi.left.getY() +1)/2; use left joy instead of throttle on right joy
-    		throttle = ((-Robot.oi.right.getZ() +1)/2);
-    		forward = Robot.oi.right.getY();
-    		strafe = -Robot.oi.right.getX();
-    		turn = -Robot.oi.right.getRawAxis(3);
-    	}
-    		
-    	else{
-    		throttle = 2; //Above 2 will limit top speed, Default is 2
-    		forward = (Robot.oi.left.getY() + Robot.oi.right.getY()) ;
-            turn = (Robot.oi.left.getY() - Robot.oi.right.getY()) ;
-            strafe = -(Robot.oi.left.getX() + Robot.oi.right.getX()) ;
+		if (SmartDashboard.getBoolean("Cheesy")) {
+			//double leftY = (-Robot.oi.left.getY() +1)/2; use left joy instead of throttle on right joy
+			throttle = ((-Robot.oi.right.getZ() + 1) / 2);
+			forward = Robot.oi.right.getY();
+			strafe = -Robot.oi.right.getX();
+			turn = -Robot.oi.right.getRawAxis(3);
+		} else {
+			throttle = 2; //Above 2 will limit top speed, Default is 2
+			forward = (Robot.oi.left.getY() + Robot.oi.right.getY());
+			turn = (Robot.oi.left.getY() - Robot.oi.right.getY());
+			strafe = -(Robot.oi.left.getX() + Robot.oi.right.getX());
 
-    	}
-    	
-    	SmartDashboard.putNumber("Drive forward", forward);
+		}
+
+		SmartDashboard.putNumber("Drive forward", forward);
 		SmartDashboard.putNumber("Drive sideways", strafe);
 		SmartDashboard.putNumber("ZRotate", turn);
 		SmartDashboard.putNumber("throttle", throttle);
-		
-		if(SmartDashboard.getBoolean("Kiddie Mode"))
-			throttle *= SmartDashboard.getNumber("power") ;
-		
-    	Robot.driveTrain.setSpeeds(throttle*forward, SmartDashboard.getNumber("Turn Factor")*throttle*turn, throttle*strafe);
+
+		if (SmartDashboard.getBoolean("Kiddie Mode")) {
+			throttle *= SmartDashboard.getNumber("power");
+		}
+
+		Robot.driveTrain.setSpeeds(throttle * forward, SmartDashboard.getNumber("Turn Factor") * throttle * turn,
+			throttle * strafe);
 		Robot.driveTrain.setHalfSpeed(Robot.oi.right.getTrigger()); //Sets half speed when trigger pressed
 	}
 

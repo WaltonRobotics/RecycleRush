@@ -1,85 +1,80 @@
 package org.usfirst.frc2974.Ralph.autonomous;
 
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2974.Ralph.Robot;
 import org.usfirst.frc2974.Ralph.subsystems.Forklift;
 
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Command;
-
 /**
- * Moves the elevator 
+ * Moves the elevator
  */
 public class MoveElevator extends Command {
 
 	/**
+	 * The number of times we want it to reach the position before we say we are there
+	 */
+	private final int MAX_COUNT = 3;
+	/**
 	 * The forklift subsystem
 	 */
-	private Forklift forklift;	
-	
+	private Forklift forklift;
 	/**
 	 * The height the command is told to go to
 	 */
 	private double height;
-	
 	/**
 	 * The amount of times it reaches the position
 	 */
 	private int timesAtHeight;
-	
-	/**
-	 * The number of times we want it to reach the position before we say we are there
-	 */
-	private final int MAX_COUNT = 3;
-	
-    
+
+
 	/**
 	 * Creates a MoveElevator command that goes to the desired height
+	 *
 	 * @param height the desired height in inches
 	 */
-	public MoveElevator(double height) 
-    {
-    	forklift = Robot.forklift;
-    	requires(forklift);
-    	this.height = height;
-    }
+	public MoveElevator(double height) {
+		forklift = Robot.forklift;
+		requires(forklift);
+		this.height = height;
+	}
 
-    
-    /**
-     * Initializes the command by setting the timeout and the height
-     */
-    protected void initialize() 
-    {
-    	timesAtHeight = 0;
-    	forklift.setElevatorPosition(height);
-    	Preferences prefs = Preferences.getInstance();
-    	setTimeout(prefs.getDouble("E_Timeout", 2.0));
-    	forklift.setMode(Forklift.Mode.position);
-    }
 
-    
-    /** 
-     * Every time the forklift is at the desired position it increments the timesAtPoisition variable
-     */
-    protected void execute()
-    {
-    	if(forklift.isAtPosition())
-    		timesAtHeight++;
-    	else
-    		timesAtHeight=0;
-    }
+	/**
+	 * Initializes the command by setting the timeout and the height
+	 */
+	protected void initialize() {
+		timesAtHeight = 0;
+		forklift.setElevatorPosition(height);
+		Preferences prefs = Preferences.getInstance();
+		setTimeout(prefs.getDouble("E_Timeout", 2.0));
+		forklift.setMode(Forklift.Mode.position);
+	}
 
-    
-    /** 
-     * Returns whether or not the elevator has reached the desired position the desired number of times
-     */
-    protected boolean isFinished() {
-    	return timesAtHeight > MAX_COUNT || isTimedOut();
-    }
 
-    
-    protected void end() {
-    }
-    
-    protected void interrupted() {
-    }
+	/**
+	 * Every time the forklift is at the desired position it increments the timesAtPoisition variable
+	 */
+	protected void execute() {
+		if (forklift.isAtPosition()) {
+			timesAtHeight++;
+		} else {
+			timesAtHeight = 0;
+		}
+	}
+
+
+	/**
+	 * Returns whether or not the elevator has reached the desired position the desired number of times
+	 */
+	protected boolean isFinished() {
+		return timesAtHeight > MAX_COUNT || isTimedOut();
+	}
+
+
+	protected void end() {
+	}
+
+	protected void interrupted() {
+	}
 }
